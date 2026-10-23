@@ -10,123 +10,76 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <style>
-    :root {
-      --pos-bg: #151619;
-      --pos-card-bg: #212328;
-      --pos-border: rgba(255, 255, 255, 0.08);
-      --pos-border-focus: rgba(255, 100, 34, 0.5);
-      --pos-primary: #ff6422;
-      --pos-primary-hover: #ff783d;
-      --pos-primary-glow: rgba(255, 100, 34, 0.35);
-      --pos-text-main: #ffffff;
-      --pos-text-muted: #8b92a0;
-      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-main);
-      background-color: var(--pos-bg);
-      color: var(--pos-text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #0e0b1a;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px 20px;
-      position: relative;
-      overflow-x: hidden;
+      padding: 20px;
     }
 
-    /* Ambient background glows */
-    .bg-glow-1 {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 100, 34, 0.12) 0%, transparent 70%);
-      top: -120px;
-      right: -120px;
-      pointer-events: none;
-    }
-
-    .bg-glow-2 {
-      position: absolute;
-      width: 450px;
-      height: 450px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 100, 34, 0.08) 0%, transparent 70%);
-      bottom: -120px;
-      left: -120px;
-      pointer-events: none;
-    }
-
-    .auth-container {
+    .auth-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       width: 100%;
-      max-width: 480px;
-      position: relative;
-      z-index: 10;
-    }
-
-    .auth-card {
-      background-color: var(--pos-card-bg);
-      border: 1px solid var(--pos-border);
+      max-width: 960px;
+      min-height: 640px;
       border-radius: 24px;
-      padding: 38px 36px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(10px);
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.07);
     }
 
-    .brand-header {
+    /* ────────────────────────────
+       LEFT — Form
+    ──────────────────────────── */
+    .auth-left {
+      background: #12101f;
+      padding: 48px 52px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand-row {
+      display: flex;
       align-items: center;
-      margin-bottom: 26px;
-      text-align: center;
+      gap: 10px;
+      margin-bottom: 36px;
     }
 
-    .diamond-dots {
-      position: relative;
-      width: 28px;
-      height: 28px;
-      margin-bottom: 14px;
+    .brand-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg,#a855f7,#7c3aed);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
     }
 
-    .diamond-dots .dot {
-      position: absolute;
-      width: 7px;
-      height: 7px;
-      background-color: var(--pos-primary);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--pos-primary-glow);
-    }
-
-    .diamond-dots .dot.top    { top: 0; left: 10.5px; }
-    .diamond-dots .dot.left   { top: 10.5px; left: 0; }
-    .diamond-dots .dot.right  { top: 10.5px; right: 0; }
-    .diamond-dots .dot.bottom { bottom: 0; left: 10.5px; }
-
-    .brand-title {
-      font-size: 24px;
+    .brand-name {
+      font-size: 18px;
       font-weight: 800;
-      letter-spacing: -0.3px;
-      margin-bottom: 4px;
+      color: #fff;
     }
 
-    .brand-subtitle {
-      font-size: 13px;
-      color: var(--pos-text-muted);
+    .form-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 5px;
     }
 
-    .auth-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .form-subtitle {
+      font-size: 13.5px;
+      color: #8b8fa8;
+      margin-bottom: 28px;
     }
+
+    .auth-form { display: flex; flex-direction: column; gap: 16px; }
 
     .form-row {
       display: grid;
@@ -134,346 +87,478 @@
       gap: 14px;
     }
 
-    @media (max-width: 440px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 500px) {
+      .form-row { grid-template-columns: 1fr; }
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .form-label {
-      font-size: 12.5px;
+    .field-label {
+      display: block;
+      font-size: 12px;
       font-weight: 600;
-      color: #cfd4dc;
+      color: #9ca3af;
+      margin-bottom: 7px;
+      letter-spacing: 0.2px;
     }
 
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
+    .field-wrap { position: relative; }
 
-    .input-wrapper svg {
-      position: absolute;
-      left: 14px;
-      color: #6d7380;
-      pointer-events: none;
-    }
-
-    .form-input, .form-select {
+    .field-input,
+    .field-select {
       width: 100%;
-      background-color: #17181c;
-      border: 1px solid var(--pos-border);
-      border-radius: 14px;
-      padding: 12px 14px 12px 42px;
-      font-family: var(--font-main);
+      background: #1c1930;
+      border: 1.5px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: inherit;
       font-size: 13.5px;
-      color: #ffffff;
+      color: #fff;
       outline: none;
-      transition: all 0.2s ease;
+      transition: border-color .2s, box-shadow .2s;
     }
 
-    .form-select {
-      padding-left: 42px;
+    .field-select {
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b92a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b8fa8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
-      cursor: pointer;
     }
 
-    .form-input:focus, .form-select:focus {
-      border-color: var(--pos-primary);
-      background-color: #1c1d22;
-      box-shadow: 0 0 0 3px rgba(255, 100, 34, 0.15);
+    .field-input:focus, .field-select:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 0 3px rgba(168,85,247,.18);
     }
 
-    .form-input::placeholder {
-      color: #555b68;
+    .field-input::placeholder { color: #4b4f68; }
+
+    .eye-btn {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: #6b6f88; cursor: pointer;
+      display: flex; align-items: center;
     }
 
-    .form-terms {
+    .terms-row {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 9px;
       font-size: 12.5px;
-      color: var(--pos-text-muted);
-      margin-top: 4px;
+      color: #8b8fa8;
     }
 
-    .form-terms input[type="checkbox"] {
-      accent-color: var(--pos-primary);
-      width: 16px;
-      height: 16px;
+    .terms-row input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: #a855f7;
       margin-top: 2px;
+      flex-shrink: 0;
     }
 
-    .btn-submit {
+    .btn-register {
       width: 100%;
       padding: 14px;
-      border-radius: 14px;
-      background-color: var(--pos-primary);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
       border: none;
-      color: #ffffff;
-      font-family: var(--font-main);
+      color: #fff;
+      font-family: inherit;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 6px 18px var(--pos-primary-glow);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+      margin-top: 4px;
     }
 
-    .btn-submit:hover {
-      background-color: var(--pos-primary-hover);
+    .btn-register:hover {
+      opacity: .92;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255, 100, 34, 0.45);
+      box-shadow: 0 10px 28px rgba(124,58,237,0.5);
     }
 
-    .auth-footer {
-      margin-top: 22px;
+    .signin-row {
       text-align: center;
       font-size: 13.5px;
-      color: var(--pos-text-muted);
+      color: #8b8fa8;
+      margin-top: 18px;
     }
 
-    .auth-footer a {
-      color: var(--pos-primary);
-      text-decoration: none;
+    .signin-row a {
+      color: #a855f7;
       font-weight: 700;
+      text-decoration: none;
       margin-left: 4px;
     }
 
-    .auth-footer a:hover {
-      text-decoration: underline;
-    }
+    .signin-row a:hover { text-decoration: underline; }
 
-    .alert-box {
+    .alert {
       display: none;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 10px;
       font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .alert.error {
+      display: block;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.3);
+      color: #fca5a5;
+    }
+    .alert.success {
+      display: block;
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.3);
+      color: #86efac;
+    }
+
+    /* ────────────────────────────
+       RIGHT — Decorative panel
+    ──────────────────────────── */
+    .auth-right {
+      background: linear-gradient(145deg, #2d1b69 0%, #1e1245 40%, #3b1c7a 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 36px;
+      overflow: hidden;
+    }
+
+    .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .blob-1 {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, transparent 70%);
+      top: -60px; left: -60px;
+    }
+
+    .blob-2 {
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(124,58,237,0.6) 0%, transparent 70%);
+      bottom: -40px; right: -40px;
+    }
+
+    .blob-3 {
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(196,130,255,0.35) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+    }
+
+    .preview-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 320px;
+      padding: 30px 24px;
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .orb-wrap {
+      width: 80px; height: 80px;
+      margin: 0 auto 18px;
+      position: relative;
+    }
+
+    .orb {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #d8b4fe, #9333ea 40%, #4c1d95 80%);
+      box-shadow:
+        0 0 30px rgba(168,85,247,0.7),
+        0 0 70px rgba(124,58,237,0.4),
+        inset 0 0 20px rgba(255,255,255,0.15);
+      animation: orbPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 30px rgba(168,85,247,0.7), 0 0 70px rgba(124,58,237,0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(168,85,247,0.9), 0 0 90px rgba(124,58,237,0.6); }
+    }
+
+    .orb-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      animation: dotFloat 2.5s ease-in-out infinite alternate;
+    }
+
+    .orb-dot:nth-child(1) { width: 9px; height: 9px; top: 24px; left: 26px; }
+    .orb-dot:nth-child(2) { width: 6px; height: 6px; top: 38px; left: 46px; animation-delay: .5s; opacity: .7; }
+    .orb-dot:nth-child(3) { width: 4px; height: 4px; top: 18px; left: 48px; animation-delay: 1s; opacity: .5; }
+
+    @keyframes dotFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
+    }
+
+    .preview-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .preview-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* Staff roles list */
+    .roles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       margin-bottom: 18px;
     }
 
-    .alert-box.error {
-      display: block;
-      background-color: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
+    .role-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 9px 14px;
+      text-align: left;
     }
 
-    .alert-box.success {
+    .role-icon {
+      font-size: 16px;
+      width: 28px;
+      height: 28px;
+      background: rgba(168,85,247,0.2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .role-text strong {
       display: block;
-      background-color: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #86efac;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .role-text span {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .join-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg,#a855f7,#7c3aed);
+      border-radius: 20px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      cursor: default;
+      box-shadow: 0 4px 14px rgba(124,58,237,0.4);
+    }
+
+    @media (max-width: 720px) {
+      .auth-wrap { grid-template-columns: 1fr; }
+      .auth-right { display: none; }
+      .auth-left { padding: 36px 24px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
+  <div class="auth-wrap">
 
-  <div class="auth-container">
-    <div class="auth-card">
-      
-      <!-- Brand Logo & Title -->
-      <div class="brand-header">
-        <div class="diamond-dots">
-          <span class="dot top"></span>
-          <span class="dot left"></span>
-          <span class="dot right"></span>
-          <span class="dot bottom"></span>
-        </div>
-        <h1 class="brand-title">Register Staff</h1>
-        <p class="brand-subtitle">Create a new Restaurant Terminal Account</p>
+    <!-- ── LEFT: Form ── -->
+    <div class="auth-left">
+      <div class="brand-row">
+        <div class="brand-icon">🍕</div>
+        <span class="brand-name">Aseria POS</span>
       </div>
 
-      <!-- Alert Notification -->
-      <div class="alert-box" id="authAlert"></div>
+      <h1 class="form-title">Create Account</h1>
+      <p class="form-subtitle">Join the Restaurant Terminal as a Staff Member</p>
 
-      <!-- Registration Form -->
+      <div class="alert" id="authAlert"></div>
+
       <form class="auth-form" id="registerForm">
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="regFullName">Full Name</label>
-            <div class="input-wrapper">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <input type="text" id="regFullName" class="form-input" placeholder="e.g. Aseria Staf" required>
-            </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label" for="regRole">Role</label>
-            <div class="input-wrapper">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-              </svg>
-              <select id="regRole" class="form-select" required>
-                <option value="Cashier">Cashier</option>
-                <option value="Waiter">Waiter / Server</option>
-                <option value="Kitchen Lead">Kitchen Lead</option>
-                <option value="Shift Manager">Shift Manager</option>
-              </select>
-            </div>
+        <div class="form-row">
+          <div>
+            <label class="field-label" for="regFullName">Full Name</label>
+            <input type="text" id="regFullName" class="field-input" placeholder="e.g. Aseria Staf" required>
+          </div>
+          <div>
+            <label class="field-label" for="regRole">Role</label>
+            <select id="regRole" class="field-select" required>
+              <option value="Cashier">Cashier</option>
+              <option value="Waiter">Waiter / Server</option>
+              <option value="Kitchen Lead">Kitchen Lead</option>
+              <option value="Shift Manager">Shift Manager</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="regEmail">Work Email Address</label>
-          <div class="input-wrapper">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-            <input type="email" id="regEmail" class="form-input" placeholder="staff@restaurant.com" required>
-          </div>
+        <div>
+          <label class="field-label" for="regEmail">Email address</label>
+          <input type="email" id="regEmail" class="field-input" placeholder="staff@restaurant.com" required>
         </div>
 
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="regPassword">Password</label>
-            <div class="input-wrapper">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <input type="password" id="regPassword" class="form-input" placeholder="••••••••" required minlength="6">
+          <div>
+            <label class="field-label" for="regPassword">Passwords</label>
+            <div class="field-wrap">
+              <input type="password" id="regPassword" class="field-input" placeholder="••••••••" required minlength="6">
+              <button type="button" class="eye-btn" id="eyeToggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label" for="regConfirmPassword">Confirm</label>
-            <div class="input-wrapper">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-              <input type="password" id="regConfirmPassword" class="form-input" placeholder="••••••••" required minlength="6">
-            </div>
+          <div>
+            <label class="field-label" for="regConfirm">Confirm</label>
+            <input type="password" id="regConfirm" class="field-input" placeholder="••••••••" required minlength="6">
           </div>
         </div>
 
-        <div class="form-terms">
-          <input type="checkbox" id="regTerms" required checked>
-          <label for="regTerms">I agree to Restaurant POS Operating Policies & Terminal Protocols</label>
+        <div class="terms-row">
+          <input type="checkbox" id="terms" checked required>
+          <label for="terms">I agree to Restaurant POS Operating Policies &amp; Terminal Protocols</label>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitRegBtn">
-          <span>Create Staff Terminal Account</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </button>
+        <button type="submit" class="btn-register">Create Account</button>
 
       </form>
 
-      <!-- Footer Link to Login -->
-      <div class="auth-footer">
-        Already have a staff terminal account?
-        <a href="login.html">Sign In</a>
+      <div class="signin-row">
+        Already have an account? <a href="login.html">Sign In</a>
       </div>
-
     </div>
+
+    <!-- ── RIGHT: Decorative panel ── -->
+    <div class="auth-right">
+      <div class="glow-blob blob-1"></div>
+      <div class="glow-blob blob-2"></div>
+      <div class="glow-blob blob-3"></div>
+
+      <div class="preview-card">
+        <div class="orb-wrap">
+          <div class="orb">
+            <div class="orb-dot"></div>
+            <div class="orb-dot"></div>
+            <div class="orb-dot"></div>
+          </div>
+        </div>
+
+        <h2 class="preview-heading">Join Our Team</h2>
+        <p class="preview-sub">Register your staff terminal account and start serving customers with the POS system.</p>
+
+        <div class="roles-list">
+          <div class="role-item">
+            <div class="role-icon">💳</div>
+            <div class="role-text">
+              <strong>Cashier</strong>
+              <span>Orders &amp; payments</span>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-icon">🍽️</div>
+            <div class="role-text">
+              <strong>Waiter / Server</strong>
+              <span>Table service</span>
+            </div>
+          </div>
+          <div class="role-item">
+            <div class="role-icon">👨‍🍳</div>
+            <div class="role-text">
+              <strong>Kitchen Lead</strong>
+              <span>KDS &amp; prep orders</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="join-badge">
+          ✨ Start your shift today
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    const registerForm = document.getElementById('registerForm');
-    const authAlert = document.getElementById('authAlert');
+    // Eye toggle
+    document.getElementById('eyeToggle')?.addEventListener('click', () => {
+      const pw = document.getElementById('regPassword');
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    });
 
-    if (registerForm) {
-      registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fullName = document.getElementById('regFullName').value.trim();
-        const role = document.getElementById('regRole').value;
-        const email = document.getElementById('regEmail').value.trim();
-        const password = document.getElementById('regPassword').value;
-        const confirmPassword = document.getElementById('regConfirmPassword').value;
+    // Register form
+    document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById('regFullName').value.trim();
+      const role = document.getElementById('regRole').value;
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
 
-        if (password !== confirmPassword) {
-          showAlert('Passwords do not match. Please verify.', 'error');
-          return;
-        }
+      if (password !== confirm) {
+        showAlert('Passwords do not match!', 'error');
+        return;
+      }
 
-        showAlert('Creating terminal staff account...', 'success');
+      showAlert('Creating your account...', 'success');
 
-        // Supabase registration attempt
-        if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient && window.supabaseClient.auth) {
-          try {
-            const { data, error } = await window.supabaseClient.auth.signUp({
-              email: email,
-              password: password,
-              options: {
-                data: {
-                  full_name: fullName,
-                  role: role
-                }
-              }
-            });
-
-            if (error) {
-              console.warn('Supabase signup notice:', error.message);
-              // Fallback to local session
-              completeStaffRegistration(fullName, email, role);
-              return;
-            }
-
-            const staffObj = {
+      if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient?.auth) {
+        try {
+          const { data, error } = await window.supabaseClient.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: fullName, role } }
+          });
+          if (!error && data?.user) {
+            localStorage.setItem('aseria_pos_staff', JSON.stringify({
               name: fullName,
-              id: data.user?.id ? data.user.id.slice(0, 11) : String(Math.floor(10000000000 + Math.random() * 90000000000)),
-              email: email,
-              role: role,
-              avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
-            };
-            localStorage.setItem('aseria_pos_staff', JSON.stringify(staffObj));
-            showAlert('Staff account successfully registered! Redirecting to POS...', 'success');
+              id: data.user.id?.slice(0, 11) || String(Date.now()).slice(-11),
+              email, role
+            }));
+            showAlert('Account created! Entering POS...', 'success');
             setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
             return;
-          } catch (err) {
-            console.warn(err);
           }
-        }
+        } catch(err) {}
+      }
 
-        completeStaffRegistration(fullName, email, role);
-      });
-    }
-
-    function completeStaffRegistration(fullName, email, role) {
-      const generatedId = String(Math.floor(10000000000 + Math.random() * 90000000000));
-      const staffObj = {
+      // Fallback
+      localStorage.setItem('aseria_pos_staff', JSON.stringify({
         name: fullName,
-        id: generatedId,
-        email: email,
-        role: role,
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
-      };
-      localStorage.setItem('aseria_pos_staff', JSON.stringify(staffObj));
-      showAlert('Staff account registered! Welcome aboard...', 'success');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 700);
-    }
+        id: String(Date.now()).slice(-11),
+        email, role
+      }));
+      showAlert('Welcome aboard! Loading POS...', 'success');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+    });
 
     function showAlert(msg, type) {
-      if (!authAlert) return;
-      authAlert.textContent = msg;
-      authAlert.className = `alert-box ${type}`;
+      const el = document.getElementById('authAlert');
+      if (!el) return;
+      el.textContent = msg;
+      el.className = `alert ${type}`;
     }
   </script>
 </body>
