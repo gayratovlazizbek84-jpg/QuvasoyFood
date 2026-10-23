@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aseria POS — Restaurant Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+</head>
+<body class="pos-body">
+
+  <div class="pos-layout">
+
+    <!-- 1. LEFT ICON NAVIGATION BAR -->
+    <aside class="pos-sidebar">
+      
+      <!-- Top Brand Diamond Logo (4 dots orange) -->
+      <div class="pos-brand-logo">
+        <div class="diamond-dots">
+          <span class="dot top"></span>
+          <span class="dot left"></span>
+          <span class="dot right"></span>
+          <span class="dot bottom"></span>
+        </div>
+      </div>
+
+      <!-- Main Icon Nav Items -->
+      <nav class="pos-nav-icons">
+        <!-- Active Dashboard / Grid icon -->
+        <button type="button" class="sidebar-icon-btn active" data-tooltip="POS Terminal" id="navTerminalBtn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+          </svg>
+        </button>
+
+        <!-- Messages / Chat -->
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Messages" id="navMessagesBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
+
+        <!-- Order Bills / Receipts -->
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Order History" id="navOrdersBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </button>
+
+        <!-- Tasks / Completed list -->
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Kitchen Display" id="navKitchenBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </button>
+
+        <!-- Analytics -->
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Reports" id="navAnalyticsBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </button>
+
+        <!-- Menu Management -->
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Menu Editor" id="navMenuBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Bottom Icon Actions (Settings, Logout) -->
+      <div class="pos-sidebar-bottom">
+        <button type="button" class="sidebar-icon-btn" data-tooltip="Settings" id="navSettingsBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+
+        <a href="login.html" class="sidebar-icon-btn" data-tooltip="Sign Out" id="navLogoutBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- 2. MAIN CENTER CONTENT AREA -->
+    <main class="pos-main">
+      
+      <!-- Top Header Row -->
+      <header class="pos-topbar">
+        
+        <!-- User Staff Badge -->
+        <div class="user-badge-wrap" id="userProfileBadge">
+          <div class="avatar-circle">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Staff avatar" id="staffAvatar">
+          </div>
+          <div class="user-info">
+            <strong class="user-name" id="staffNameDisplay">Aseria Staf</strong>
+            <span class="user-id" id="staffIdDisplay">17129445521</span>
+          </div>
+        </div>
+
+        <!-- Category Pill Chips Bar -->
+        <div class="category-chips-bar" id="categoryChipsBar">
+          
+          <!-- Active: Pizza (Orange Pill with icon) -->
+          <button type="button" class="pos-cat-chip active" data-category="pizza">
+            <span class="cat-icon">🍕</span>
+            <span>Pizza</span>
+          </button>
+
+          <!-- Hot drinks -->
+          <button type="button" class="pos-cat-chip" data-category="hot-drinks">
+            <span class="cat-icon">☕</span>
+            <span>Hot drinks</span>
+          </button>
+
+          <!-- Cold drinks -->
+          <button type="button" class="pos-cat-chip" data-category="cold-drinks">
+            <span class="cat-icon">🥤</span>
+            <span>Cold drinks</span>
+          </button>
+
+          <!-- Dessert -->
+          <button type="button" class="pos-cat-chip" data-category="dessert">
+            <span class="cat-icon">🧁</span>
+            <span>Dessert</span>
+          </button>
+
+          <!-- Burgers -->
+          <button type="button" class="pos-cat-chip" data-category="burgers">
+            <span class="cat-icon">🍔</span>
+            <span>Burgers</span>
+          </button>
+
+        </div>
+
+        <!-- Search Input Bar -->
+        <div class="pos-search-wrapper">
+          <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="posSearchInput" placeholder="Search product by name, categories or SKU">
+          <button type="button" class="clear-search-btn" id="clearSearchBtn" aria-label="Clear search">&times;</button>
+        </div>
+
+      </header>
+
+      <!-- Products Grid -->
+      <section class="pos-products-grid" id="posProductsGrid">
+        <!-- Rendered dynamically by dashboard.js matching the exact 6 pizzas in Dribbble screenshot -->
+      </section>
+
+    </main>
+
+    <!-- 3. RIGHT ORDER SUMMARY SIDEBAR -->
+    <aside class="pos-order-sidebar">
+      
+      <!-- Top Order Type Pill Selector (Take away | Dine in) -->
+      <div class="order-type-tabs">
+        <button type="button" class="type-tab-btn active" data-type="takeaway" id="tabTakeaway">
+          Take away
+        </button>
+        <button type="button" class="type-tab-btn" data-type="dinein" id="tabDinein">
+          Dine in
+        </button>
+      </div>
+
+      <!-- Section Title -->
+      <div class="order-header-row">
+        <h2 class="order-title">Items</h2>
+        <span class="order-badge" id="orderItemsCountBadge">2 items</span>
+      </div>
+
+      <!-- Live Order Items List -->
+      <div class="order-items-list" id="orderItemsList">
+        <!-- Injected via dashboard.js with exact match to image items -->
+      </div>
+
+      <!-- Order Calculation Breakdown -->
+      <div class="order-calculation">
+        <div class="calc-row">
+          <span>Subtotal</span>
+          <strong id="posSubtotal">$28.98</strong>
+        </div>
+        <div class="calc-row">
+          <span>Tax(5%)</span>
+          <strong id="posTax">$1.45</strong>
+        </div>
+        <div class="calc-row">
+          <span>Discount</span>
+          <strong id="posDiscount">-$0.00</strong>
+        </div>
+        <div class="calc-divider"></div>
+        <div class="calc-row total-row">
+          <span>Total</span>
+          <strong class="grand-total-amount" id="posGrandTotal">$30.43</strong>
+        </div>
+      </div>
+
+      <!-- Action Button: Print Receipt -->
+      <button type="button" class="btn btn-print-receipt" id="printReceiptBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span>Print Receipt</span>
+      </button>
+
+    </aside>
+
+  </div>
+
+  <!-- RECEIPT PRINT PREVIEW MODAL -->
+  <div class="modal-backdrop" id="receiptModal" aria-hidden="true">
+    <div class="receipt-paper">
+      <button type="button" class="receipt-close" id="closeReceiptModal">&times;</button>
+      <div class="receipt-header">
+        <div class="receipt-logo">🍕 ASERIA POS</div>
+        <p>124 Grand Mercer Avenue, Suite 101</p>
+        <p>Tel: +1 (555) 019-8234</p>
+        <p class="receipt-meta">
+          Order: <strong id="receiptOrderNum">#ORD-9428</strong> &bull; 
+          <span id="receiptOrderType">Take away</span> &bull; 
+          Staff: <strong id="receiptStaffName">Aseria Staf</strong>
+        </p>
+      </div>
+
+      <div class="receipt-divider">--------------------------------</div>
+
+      <div class="receipt-items-table" id="receiptItemsTable">
+        <!-- Populated via JS -->
+      </div>
+
+      <div class="receipt-divider">--------------------------------</div>
+
+      <div class="receipt-summary">
+        <div class="receipt-line"><span>Subtotal:</span> <span id="rSubtotal">$0.00</span></div>
+        <div class="receipt-line"><span>Tax (5%):</span> <span id="rTax">$0.00</span></div>
+        <div class="receipt-line"><span>Discount:</span> <span id="rDiscount">-$0.00</span></div>
+        <div class="receipt-line receipt-total"><span>TOTAL:</span> <strong id="rTotal">$0.00</strong></div>
+      </div>
+
+      <div class="receipt-footer">
+        <p>Thank you for choosing Aseria!</p>
+        <p>Have a wonderful day!</p>
+        <button type="button" class="btn btn-primary-orange full-width" onclick="window.print()">
+          Print Paper Slip 🖨️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div class="pos-toast-stack" id="posToastContainer"></div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

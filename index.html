@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quvasoy Food Rescue – Save Food, Save Money</title>
+  <meta name="description" content="Real-time food rescue in Quvasoy. Restaurants upload surplus meals, you pick them up fresh at a fraction of the cost or free.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="theme.js"></script>
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="qfr-header" id="qfrHeader">
+    <div class="header-container">
+      
+      <!-- Brand Logo -->
+      <a href="#home" class="brand-logo" aria-label="Quvasoy Food Rescue Home">
+        <div class="logo-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+          </svg>
+        </div>
+        <span class="brand-text">Quvasoy Food Rescue</span>
+      </a>
+
+      <!-- Center Navigation Tabs -->
+      <nav class="center-nav" aria-label="Main Navigation">
+        <ul class="nav-pills">
+          <li><a href="#home" class="nav-pill active" data-nav="home" data-i18n="navHome">Home</a></li>
+          <li><a href="#catalog" class="nav-pill" data-nav="find-food" data-i18n="navFindFood">Find Food</a></li>
+          <li><a href="#restaurants" class="nav-pill" data-nav="for-restaurants" data-i18n="navForRestaurants">For Restaurants</a></li>
+          <li><a href="dashboard.html" class="nav-pill" style="color: #ff6422; font-weight: 700;">🍕 POS Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (Language Switcher, Theme, Auth, Browse) -->
+      <div class="header-right-actions">
+        
+        <!-- Language Switcher Pill: [ UZ | RU | EN ] -->
+        <div class="lang-switcher" id="langSwitcher" role="group" aria-label="Language selection">
+          <button type="button" class="lang-btn" data-lang="uz">UZ</button>
+          <button type="button" class="lang-btn" data-lang="ru">RU</button>
+          <button type="button" class="lang-btn active" data-lang="en">EN</button>
+        </div>
+
+        <!-- Dark/Light Mode Toggle Button -->
+        <button type="button" class="theme-toggle-btn icon-circle-btn" id="themeToggleBtn" aria-label="Toggle dark/light mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Sign In Button -->
+        <button type="button" class="btn btn-pill-outline" id="signInBtn" data-i18n="navSignIn">
+          Sign In
+        </button>
+
+        <!-- Primary Browse Food Button -->
+        <a href="#catalog" class="btn btn-primary-green btn-browse" id="browseFoodHeaderBtn">
+          <span data-i18n="navBrowseFood">Browse Food</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"></path>
+            <path d="M15 2v14a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"></path>
+            <line x1="21" y1="15" x2="21" y2="22"></line>
+            <line x1="12" y1="21" x2="12" y2="22"></line>
+          </svg>
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button type="button" class="mobile-hamburger-btn icon-circle-btn" id="mobileMenuToggle" aria-label="Open mobile menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN PAGE CONTENT -->
+  <main>
+    
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="home">
+      <div class="hero-bg-glow glow-left"></div>
+      <div class="hero-bg-glow glow-right"></div>
+
+      <div class="hero-container">
+        
+        <!-- Left Hero Content -->
+        <div class="hero-left">
+          
+          <!-- Green Pill Badge -->
+          <div class="hero-status-badge">
+            <span class="pulse-indicator"></span>
+            <span data-i18n="heroBadge">Real-time food rescue in Quvasoy</span>
+          </div>
+
+          <!-- Bold Hero Headline -->
+          <h1 class="hero-title">
+            <span data-i18n="heroTitle1">Save Great Food</span><br>
+            <span data-i18n="heroTitle2">Feed the Community</span>
+          </h1>
+
+          <!-- Hero Subtitle -->
+          <p class="hero-subtitle" data-i18n="heroSubtitle">
+            Restaurants upload leftover meals. You pick them up fresh, at a fraction of the cost. Less waste, more taste — every single day.
+          </p>
+
+          <!-- Hero Action Buttons -->
+          <div class="hero-btn-group">
+            <a href="#catalog" class="btn btn-primary-green btn-hero-lg" id="findFoodHeroBtn">
+              <span data-i18n="btnFindFoodNearMe">Find Food Near Me</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </a>
+
+            <button type="button" class="btn btn-pill-secondary btn-hero-lg" id="imRestaurantHeroBtn">
+              <span data-i18n="btnImRestaurant">I'm a Restaurant</span>
+            </button>
+          </div>
+
+          <!-- Metrics / Statistics Counter -->
+          <div class="hero-metrics-row">
+            <div class="metric-item">
+              <span class="metric-number" data-i18n="stat1Number">2,400+</span>
+              <span class="metric-label" data-i18n="stat1Label">MEALS RESCUED THIS MONTH</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-number" data-i18n="stat2Number">48</span>
+              <span class="metric-label" data-i18n="stat2Label">PARTNER RESTAURANTS</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-number" data-i18n="stat3Number">94%</span>
+              <span class="metric-label" data-i18n="stat3Label">USER SATISFACTION</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Hero Visual / Interactive Phone Mockup -->
+        <div class="hero-right">
+          <div class="phone-mockup-wrapper">
+            
+            <!-- Floating Badge: 4 new items! (Top-Right) -->
+            <div class="floating-bubble bubble-top-right" id="bubbleNewItems">
+              <span class="bubble-icon">⚡</span>
+              <span class="bubble-text" data-i18n="mockupNewBadge">4 new items!</span>
+            </div>
+
+            <!-- Floating Badge: 34 meals saved (Middle-Left) -->
+            <div class="floating-bubble bubble-middle-left" id="bubbleSaved">
+              <span class="bubble-icon">😊</span>
+              <span class="bubble-text" data-i18n="mockupSavedBadge">34 meals saved</span>
+            </div>
+
+            <!-- Floating Badge: 4.9 rating (Bottom-Right) -->
+            <div class="floating-bubble bubble-bottom-right" id="bubbleRating">
+              <span class="bubble-icon">⭐</span>
+              <span class="bubble-text" data-i18n="mockupRatingBadge">4.9 rating</span>
+            </div>
+
+            <!-- The Smartphone Mockup Frame -->
+            <div class="smartphone-frame">
+              
+              <!-- Speaker Notch & Status Bar -->
+              <div class="smartphone-notch">
+                <div class="phone-speaker"></div>
+                <div class="phone-camera"></div>
+              </div>
+
+              <div class="phone-status-bar">
+                <span class="phone-time">9:41</span>
+                <div class="phone-status-icons">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.66-1.66-4.34-1.66-6 0z"></path></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="18" height="10" rx="2" ry="2"></rect><line x1="22" y1="11" x2="22" y2="13"></line></svg>
+                </div>
+              </div>
+
+              <!-- Phone App Screen -->
+              <div class="phone-screen-content">
+                
+                <!-- Phone App Header -->
+                <div class="phone-app-header">
+                  <div class="phone-logo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00BA74" stroke-width="2.2">
+                      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                    </svg>
+                    <span>Food Rescue</span>
+                  </div>
+                  <button type="button" class="phone-bell-btn" id="phoneNotificationsBtn" aria-label="Notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="notification-dot"></span>
+                  </button>
+                </div>
+
+                <!-- Phone Search Bar -->
+                <div class="phone-search-box">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="phoneSearchInput" placeholder="Search food..." data-i18n="mockupSearchPlaceholder">
+                </div>
+
+                <!-- Phone Meal Cards List -->
+                <div class="phone-cards-list">
+                  
+                  <!-- Meal Card 1: Osh (Plov) — Zafar -->
+                  <div class="phone-food-card" data-dish-id="1">
+                    <div class="card-media-box">
+                      <span class="dish-emoji-icon">🍲</span>
+                    </div>
+                    <div class="card-details">
+                      <div class="card-title-row">
+                        <strong class="dish-name" data-dish-key="plov">Osh (Plov) — Zafar</strong>
+                      </div>
+                      <div class="card-meta-row">
+                        <span class="dish-price" data-price="3000">3,000 so'm</span>
+                        <span class="dish-timer">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                          <span class="timer-text" data-timer-key="1h20m">1h 20m</span>
+                        </span>
+                      </div>
+                    </div>
+                    <button type="button" class="mini-claim-btn" data-action="claim-dish" data-id="1">
+                      &rarr;
+                    </button>
+                  </div>
+
+                  <!-- Meal Card 2: Shashlik — Bahor -->
+                  <div class="phone-food-card" data-dish-id="2">
+                    <div class="card-media-box">
+                      <span class="dish-emoji-icon">🔥</span>
+                    </div>
+                    <div class="card-details">
+                      <div class="card-title-row">
+                        <strong class="dish-name" data-dish-key="shashlik">Shashlik — Bahor</strong>
+                      </div>
+                      <div class="card-meta-row">
+                        <span class="dish-price price-free" data-i18n="freeTag">FREE</span>
+                        <span class="dish-timer">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                          <span class="timer-text" data-timer-key="45m">45m</span>
+                        </span>
+                      </div>
+                    </div>
+                    <button type="button" class="mini-claim-btn" data-action="claim-dish" data-id="2">
+                      &rarr;
+                    </button>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LIVE FOOD CATALOG FEED SECTION -->
+    <section class="section catalog-section" id="catalog">
+      <div class="container">
+        
+        <div class="section-title-wrap">
+          <h2 class="section-heading" data-i18n="catalogTitle">Bugungi yangi taomlar</h2>
+          <p class="section-subheading" data-i18n="catalogSubtitle">Quvasoy shahridagi restoranlardan arzon yoki bepul sifatli taomlar</p>
+        </div>
+
+        <!-- Filter Chips Bar -->
+        <div class="filter-chips-container">
+          <button type="button" class="filter-chip active" data-filter="all" data-i18n="filterAll">Barchasi</button>
+          <button type="button" class="filter-chip" data-filter="free" data-i18n="filterFree">Bepul</button>
+          <button type="button" class="filter-chip" data-filter="under5k" data-i18n="filterUnder5k">5,000 so'mgacha</button>
+          <button type="button" class="filter-chip" data-filter="plov" data-i18n="filterPlov">Osh &amp; Issiq taomlar</button>
+          <button type="button" class="filter-chip" data-filter="bakery" data-i18n="filterBakery">Somsa &amp; Non mahsulotlari</button>
+          <button type="button" class="filter-chip" data-filter="halal" data-i18n="filterHalal">Halol sertifikatlangan</button>
+        </div>
+
+        <!-- Live Food Cards Grid -->
+        <div class="food-catalog-grid" id="foodCatalogGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RESTAURANT PARTNER CTA STRIP -->
+    <section class="section restaurant-cta-section" id="restaurants">
+      <div class="container">
+        <div class="restaurant-cta-card">
+          <div class="cta-content">
+            <span class="cta-eyebrow" data-i18n="navForRestaurants">For Restaurants</span>
+            <h2 class="cta-title">Ortib qolgan taomlarni tashlamang — e'lon bering</h2>
+            <p class="cta-text">Quvasoydagi kafelar, to'yxonalar va choyxonalar bir daqiqa ichida ortiqcha taomlarni joylab, ham savobga ega bo'lishlari, ham isrofni kamaytirishlari mumkin.</p>
+            <div class="cta-actions">
+              <button type="button" class="btn btn-primary-green" id="partnerModalBtn" data-i18n="btnUploadDish">
+                Taomni e'lon qilish
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SITE FOOTER -->
+  <footer class="qfr-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <div class="brand-logo">
+          <div class="logo-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            </svg>
+          </div>
+          <span>Quvasoy Food Rescue</span>
+        </div>
+        <p class="footer-tagline">Save Food &bull; Save Money &bull; Zero Waste Quvasoy</p>
+      </div>
+      <div class="footer-right">
+        <p>&copy; <span id="footerYear">2026</span> Quvasoy Food Rescue Initiative.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL 1: CLAIM MEAL & GET PICKUP CODE -->
+  <div class="modal-backdrop" id="claimModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button type="button" class="modal-close-btn" id="closeClaimModal" aria-label="Close">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-badge-green" data-i18n="modalClaimTitle">Taomni band qilish</span>
+        <h3 class="modal-title" id="claimModalDishTitle">Osh (Plov) — Zafar</h3>
+        <p class="modal-desc" data-i18n="modalClaimDesc">Ushbu taomni olib ketish uchun sizga maxsus kod beriladi:</p>
+      </div>
+
+      <div class="modal-code-card">
+        <span class="code-label" data-i18n="modalPickupCode">Olib ketish kodi:</span>
+        <strong class="pickup-code-val" id="pickupCodeDisplay">#QFR-84920</strong>
+        <span class="code-expiry" id="pickupExpiresText">⏱ 1 soat 20 daqiqa ichida oling</span>
+      </div>
+
+      <div class="modal-info-list" id="claimModalDetails">
+        <!-- Injected via JS -->
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary-green full-width" id="confirmClaimBtn" data-i18n="modalConfirmBtn">
+          Tasdiqlash &amp; Kod olish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: FOR RESTAURANTS / UPLOAD SURPLUS MEAL -->
+  <div class="modal-backdrop" id="restaurantModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button type="button" class="modal-close-btn" id="closeRestModal" aria-label="Close">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-badge-green" data-i18n="navForRestaurants">Restoranlar uchun</span>
+        <h3 class="modal-title" data-i18n="partnerModalTitle">Taom yuklash / Restoran qo'shish</h3>
+        <p class="modal-desc" data-i18n="partnerModalDesc">Ortib qolgan toza va yangi taomlarni yuklang, isrof bo'lishining oldini oling.</p>
+      </div>
+
+      <form id="uploadDishForm" class="modal-form">
+        <div class="form-group">
+          <label for="dishNameInput" data-i18n="labelDishName">Taom nomi</label>
+          <input type="text" id="dishNameInput" placeholder="Masalan: Manti, Sho'rva, Non" required>
+        </div>
+
+        <div class="form-group">
+          <label for="restNameInput" data-i18n="labelRestName">Restoran / Kafe nomi</label>
+          <input type="text" id="restNameInput" placeholder="Masalan: Bahor Choyxonasi" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="origPriceInput" data-i18n="labelOriginalPrice">Asl narxi (so'm)</label>
+            <input type="number" id="origPriceInput" placeholder="25000" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="rescuePriceInput" data-i18n="labelRescuePrice">Qutqaruv narxi (so'm)</label>
+            <input type="number" id="rescuePriceInput" placeholder="5000" required>
+          </div>
+        </div>
+
+        <div class="form-checkbox-row">
+          <input type="checkbox" id="isFreeCheckbox">
+          <label for="isFreeCheckbox" data-i18n="labelIsFree">Bepul (ehtiyojmandlarga xayriya)</label>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="portionsInput" data-i18n="labelPortions">Porsiyalar soni</label>
+            <input type="number" id="portionsInput" min="1" value="5" required>
+          </div>
+          <div class="form-group flex-1">
+            <label for="pickupUntilInput" data-i18n="labelPickupUntil">Olib ketish vaqti (gacha)</label>
+            <input type="text" id="pickupUntilInput" placeholder="21:00 gacha" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary-green full-width" data-i18n="btnUploadDish">
+          Taomni e'lon qilish
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: SIGN IN / AUTH -->
+  <div class="modal-backdrop" id="authModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-box modal-box-sm">
+      <button type="button" class="modal-close-btn" id="closeAuthModal" aria-label="Close">&times;</button>
+      
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="authModalTitle">Tizimga kirish</h3>
+        <p class="modal-desc" data-i18n="authModalDesc">Oziq-ovqatni asrash hamjamiyatiga qo'shiling</p>
+      </div>
+
+      <form id="authForm" class="modal-form">
+        <div class="form-group">
+          <label for="authPhoneInput" data-i18n="labelPhone">Telefon raqamingiz</label>
+          <input type="tel" id="authPhoneInput" placeholder="+998 90 123 45 67" required>
+        </div>
+
+        <div class="form-group">
+          <label for="authNameInput" data-i18n="labelName">Ismingiz</label>
+          <input type="text" id="authNameInput" placeholder="Azizbek" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary-green full-width" data-i18n="btnSubmitAuth">
+          Kirish / Ro'yxatdan o'tish
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-stack" id="toastContainer" aria-live="polite"></div>
+
+  <!-- JAVASCRIPT MODULES & SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
