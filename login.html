@@ -1,512 +1,467 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aseria POS — Staff Login</title>
+  <title>Kirish — Tanuki Family</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --tanuki-red: #e31e24;
+      --tanuki-red-hover: #c4151b;
+      --tanuki-bg: #f5f5f7;
+      --tanuki-card: #ffffff;
+      --tanuki-text: #1d1d1f;
+      --tanuki-muted: #86868b;
+      --tanuki-border: #e6e6ea;
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #0e0b1a;
+      font-family: var(--font-family);
+      background-color: var(--tanuki-bg);
+      color: var(--tanuki-text);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
     }
 
-    /* ── Outer card ── */
-    .auth-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    /* Top Back Link */
+    .top-back-bar {
       width: 100%;
-      max-width: 960px;
-      min-height: 580px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.07);
+      max-width: 980px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: flex-start;
     }
 
-    /* ────────────────────────────
-       LEFT  — Login Form
-    ──────────────────────────── */
-    .auth-left {
-      background: #12101f;
-      padding: 56px 52px;
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--tanuki-text);
+      font-size: 13.5px;
+      font-weight: 700;
+      background: #ffffff;
+      padding: 8px 18px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.15s ease;
+    }
+
+    .back-link:hover {
+      background: #f0f1f4;
+      transform: translateX(-2px);
+    }
+
+    /* Main Auth Container */
+    .auth-container {
+      width: 100%;
+      max-width: 980px;
+      background: var(--tanuki-card);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--tanuki-border);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      min-height: 580px;
+    }
+
+    @media (max-width: 860px) {
+      .auth-container {
+        grid-template-columns: 1fr;
+      }
+      .auth-banner-side {
+        display: none !important;
+      }
+    }
+
+    /* Left Form Side */
+    .auth-form-side {
+      padding: 48px 48px 40px 48px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
-    .brand-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 48px;
+    .brand-logo-badge {
+      display: inline-flex;
+      text-decoration: none;
+      margin-bottom: 24px;
     }
 
-    .brand-icon {
-      width: 34px; height: 34px;
-      background: linear-gradient(135deg,#a855f7,#7c3aed);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-    }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 800;
+    .logo-red-box {
+      background: var(--tanuki-red);
       color: #fff;
-      letter-spacing: -0.3px;
-    }
-
-    .avatar-area {
+      border-radius: 12px;
+      padding: 6px 14px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(227, 30, 36, 0.28);
+    }
+
+    .logo-brand-top {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      line-height: 1.1;
+    }
+
+    .logo-brand-sub {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      opacity: 0.95;
+      line-height: 1.1;
+    }
+
+    .form-heading {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--tanuki-text);
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+    }
+
+    .form-subheading {
+      font-size: 13.5px;
+      color: var(--tanuki-muted);
+      line-height: 1.45;
       margin-bottom: 28px;
     }
 
-    .avatar-circle {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      margin-bottom: 18px;
-      border: 2px solid rgba(168,85,247,0.4);
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .form-title {
-      font-size: 26px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-      letter-spacing: -0.4px;
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .form-subtitle {
-      font-size: 13.5px;
-      color: #8b8fa8;
-    }
-
-    /* Form fields */
-    .auth-form { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
-
-    .field-label {
-      display: block;
+    .form-field label {
       font-size: 12.5px;
-      font-weight: 600;
-      color: #9ca3af;
-      margin-bottom: 7px;
-      letter-spacing: 0.2px;
+      font-weight: 700;
+      color: var(--tanuki-text);
     }
 
-    .field-wrap { position: relative; }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
 
-    .field-input {
+    .input-wrapper input {
       width: 100%;
-      background: #1c1930;
-      border: 1.5px solid rgba(255,255,255,0.07);
-      border-radius: 12px;
-      padding: 13px 44px 13px 16px;
+      background: #fafafc;
+      border: 1px solid var(--tanuki-border);
+      border-radius: 14px;
+      padding: 12px 16px;
       font-family: inherit;
       font-size: 14px;
-      color: #fff;
+      font-weight: 500;
+      color: var(--tanuki-text);
       outline: none;
-      transition: border-color .2s, box-shadow .2s;
+      transition: all 0.2s ease;
     }
 
-    .field-input:focus {
-      border-color: #a855f7;
-      box-shadow: 0 0 0 3px rgba(168,85,247,.18);
+    .input-wrapper input:focus {
+      background: #ffffff;
+      border-color: var(--tanuki-red);
+      box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.1);
     }
 
-    .field-input::placeholder { color: #4b4f68; }
-
-    .eye-btn {
-      position: absolute; right: 14px; top: 50%;
-      transform: translateY(-50%);
-      background: none; border: none;
-      color: #6b6f88; cursor: pointer;
-      display: flex; align-items: center;
+    .eye-toggle-btn {
+      position: absolute;
+      right: 14px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--tanuki-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .field-options {
-      display: flex; align-items: center;
+    .form-meta-row {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
+      font-size: 12.5px;
+      margin-top: -4px;
     }
 
-    .check-label {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: #8b8fa8; cursor: pointer;
-    }
-
-    .check-label input[type="checkbox"] {
-      width: 16px; height: 16px;
-      border-radius: 4px;
-      accent-color: #a855f7;
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--tanuki-text);
+      font-weight: 600;
     }
 
     .forgot-link {
-      font-size: 13px;
-      color: #a855f7;
+      color: var(--tanuki-red);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .forgot-link:hover { text-decoration: underline; }
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
 
-    .btn-login {
+    .btn-auth-submit {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
       border: none;
-      color: #fff;
+      background: var(--tanuki-red);
+      color: #ffffff;
       font-family: inherit;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 800;
+      padding: 13px 20px;
+      border-radius: 999px;
       cursor: pointer;
-      transition: opacity .2s, transform .2s, box-shadow .2s;
-      box-shadow: 0 6px 20px rgba(124,58,237,0.4);
-      margin-top: 4px;
+      box-shadow: 0 4px 16px rgba(227, 30, 36, 0.3);
+      transition: all 0.2s ease;
+      margin-top: 6px;
     }
 
-    .btn-login:hover {
-      opacity: .92;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(124,58,237,0.5);
+    .btn-auth-submit:hover {
+      background: var(--tanuki-red-hover);
+      transform: translateY(-1px);
     }
 
-    .signup-row {
+    .auth-alert {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .auth-alert.error {
+      display: block;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    .auth-alert.success {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .form-switch-prompt {
+      margin-top: 22px;
       text-align: center;
       font-size: 13.5px;
-      color: #8b8fa8;
-      margin-top: 20px;
+      color: var(--tanuki-muted);
     }
 
-    .signup-row a {
-      color: #a855f7;
-      font-weight: 700;
+    .form-switch-prompt a {
+      color: var(--tanuki-red);
       text-decoration: none;
+      font-weight: 800;
       margin-left: 4px;
     }
 
-    .signup-row a:hover { text-decoration: underline; }
-
-    /* Alert */
-    .alert {
-      display: none;
-      padding: 11px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-    .alert.error {
-      display: block;
-      background: rgba(239,68,68,.12);
-      border: 1px solid rgba(239,68,68,.3);
-      color: #fca5a5;
-    }
-    .alert.success {
-      display: block;
-      background: rgba(34,197,94,.12);
-      border: 1px solid rgba(34,197,94,.3);
-      color: #86efac;
+    .form-switch-prompt a:hover {
+      text-decoration: underline;
     }
 
-    /* ────────────────────────────
-       RIGHT — Decorative panel
-    ──────────────────────────── */
-    .auth-right {
-      background: linear-gradient(145deg, #2d1b69 0%, #1e1245 40%, #3b1c7a 100%);
-      position: relative;
+    /* Right Banner Side */
+    .auth-banner-side {
+      background: linear-gradient(145deg, #1d1d1f 0%, #2c1a24 100%);
+      padding: 44px 36px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 36px;
+      justify-content: space-between;
+      position: relative;
       overflow: hidden;
+      color: #ffffff;
     }
 
-    /* Ambient glow blobs */
-    .glow-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      pointer-events: none;
-    }
-
-    .blob-1 {
-      width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, transparent 70%);
-      top: -60px; left: -60px;
-    }
-
-    .blob-2 {
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(124,58,237,0.6) 0%, transparent 70%);
-      bottom: -40px; right: -40px;
-    }
-
-    .blob-3 {
-      width: 160px; height: 160px;
-      background: radial-gradient(circle, rgba(196,130,255,0.35) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-    }
-
-    /* Floating decorative card */
-    .preview-card {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
+    .banner-art-wrap {
+      position: relative;
       width: 100%;
-      max-width: 320px;
-      padding: 30px 24px;
-      position: relative;
-      z-index: 5;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
-    /* Glowing orb */
-    .orb-wrap {
-      width: 90px; height: 90px;
-      margin: 0 auto 20px;
-      position: relative;
+    .banner-art-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .orb {
-      width: 90px; height: 90px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #d8b4fe, #9333ea 40%, #4c1d95 80%);
-      box-shadow:
-        0 0 30px rgba(168,85,247,0.7),
-        0 0 70px rgba(124,58,237,0.4),
-        inset 0 0 20px rgba(255,255,255,0.15);
-      animation: orbPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes orbPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(168,85,247,0.7), 0 0 70px rgba(124,58,237,0.4); }
-      50%       { transform: scale(1.06); box-shadow: 0 0 45px rgba(168,85,247,0.9), 0 0 90px rgba(124,58,237,0.6); }
-    }
-
-    /* Inner orb dot lights */
-    .orb-dot {
+    .banner-tag-floating {
       position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.85);
-      animation: dotFloat 2.5s ease-in-out infinite alternate;
-    }
-
-    .orb-dot:nth-child(1) { width: 10px; height: 10px; top: 28px; left: 30px; animation-delay: 0s; }
-    .orb-dot:nth-child(2) { width: 7px;  height: 7px;  top: 42px; left: 52px; animation-delay: .5s; opacity: .7; }
-    .orb-dot:nth-child(3) { width: 5px;  height: 5px;  top: 20px; left: 54px; animation-delay: 1s; opacity: .5; }
-
-    @keyframes dotFloat {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-5px); }
-    }
-
-    .preview-heading {
-      font-size: 18px;
-      font-weight: 800;
+      top: 12px;
+      left: 12px;
+      background: var(--tanuki-red);
       color: #fff;
-      margin-bottom: 6px;
-      letter-spacing: -0.2px;
-    }
-
-    .preview-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.5;
-      margin-bottom: 22px;
-    }
-
-    /* Quick action pills */
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
-
-    .quick-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      padding: 7px 14px;
-      font-size: 11.5px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.8);
-      cursor: pointer;
-      transition: background .2s;
-    }
-
-    .quick-pill:hover {
-      background: rgba(168,85,247,0.25);
-      border-color: rgba(168,85,247,0.4);
-    }
-
-    /* Chat input area */
-    .chat-box {
-      background: rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .chat-placeholder {
-      font-size: 13px;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 12px;
-    }
-
-    .chat-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .chat-action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 5px 12px;
       font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .banner-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .banner-desc {
+      font-size: 13px;
+      opacity: 0.85;
+      line-height: 1.45;
+      margin-bottom: 20px;
+    }
+
+    .perks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .perk-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
       font-weight: 600;
-      color: rgba(255,255,255,0.6);
-      cursor: default;
-    }
-
-    .chat-action-btn.purple {
-      background: linear-gradient(135deg,#a855f7,#7c3aed);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .chat-spacer { flex: 1; }
-
-    /* Responsive */
-    @media (max-width: 720px) {
-      .auth-wrap { grid-template-columns: 1fr; }
-      .auth-right { display: none; }
-      .auth-left { padding: 40px 28px; }
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-wrap">
+  <!-- Top Back Button -->
+  <div class="top-back-bar">
+    <a href="dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Menyuga qaytish</span>
+    </a>
+  </div>
 
-    <!-- ── LEFT: Form ── -->
-    <div class="auth-left">
-      <div class="brand-row">
-        <div class="brand-icon">🍕</div>
-        <span class="brand-name">Aseria POS</span>
-      </div>
+  <!-- Auth Card -->
+  <div class="auth-container">
+    
+    <!-- LEFT: Login Form -->
+    <div class="auth-form-side">
+      
+      <!-- Brand Logo Badge -->
+      <a href="dashboard.html" class="brand-logo-badge">
+        <span class="logo-red-box">
+          <span class="logo-brand-top">TANUKI</span>
+          <span class="logo-brand-sub">FAMILY</span>
+        </span>
+      </a>
 
-      <div class="avatar-area">
-        <div class="avatar-circle">👤</div>
-        <h1 class="form-title">Welcome Back</h1>
-        <p class="form-subtitle">Enter your email and password to access</p>
-      </div>
+      <h1 class="form-heading">Tizimga kirish</h1>
+      <p class="form-subheading">Buyurtma berish, bonuslarni yig'ish va sevimli taomlarni saqlash uchun profilingizga kiring.</p>
 
-      <div class="alert" id="authAlert"></div>
+      <div class="auth-alert" id="authAlert"></div>
 
-      <form class="auth-form" id="loginForm">
-
-        <div>
-          <label class="field-label" for="staffEmail">Email address</label>
-          <div class="field-wrap">
-            <input type="text" id="staffEmail" class="field-input" placeholder="aseria@restaurant.com" required>
+      <form id="loginForm" class="auth-form">
+        <!-- Telefon raqam -->
+        <div class="form-field">
+          <label for="loginPhone">Telefon raqam yoki Email</label>
+          <div class="input-wrapper">
+            <input type="text" id="loginPhone" placeholder="+998 90 123 45 67 yoki email" required autocomplete="username">
           </div>
         </div>
 
-        <div>
-          <label class="field-label" for="staffPassword">Passwords</label>
-          <div class="field-wrap">
-            <input type="password" id="staffPassword" class="field-input" placeholder="••••••••" required>
-            <button type="button" class="eye-btn" id="eyeToggle" aria-label="Show password">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-              </svg>
+        <!-- Parol -->
+        <div class="form-field">
+          <label for="loginPassword">Parol</label>
+          <div class="input-wrapper">
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="eye-toggle-btn" id="eyeToggle" aria-label="Parolni ko'rsatish">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
         </div>
 
-        <div class="field-options">
-          <label class="check-label">
-            <input type="checkbox" id="keepMe" checked>
-            Keep me login
+        <!-- Meta options -->
+        <div class="form-meta-row">
+          <label class="remember-label">
+            <input type="checkbox" id="rememberMe" checked>
+            <span>Meni eslab qol</span>
           </label>
-          <a href="#" class="forgot-link">Forget password?</a>
+          <a href="#" class="forgot-link" onclick="alert('Parolni tiklash uchun SMS yuborildi.'); return false;">Parolni unutdingizmi?</a>
         </div>
 
-        <button type="submit" class="btn-login" id="loginBtn">Login</button>
-
+        <!-- Submit Button -->
+        <button type="submit" class="btn-auth-submit" id="submitLoginBtn">
+          Kirish
+        </button>
       </form>
 
-      <div class="signup-row">
-        Don't have an account? <a href="register.html">Register</a>
-      </div>
+      <p class="form-switch-prompt">
+        Hisobingiz yo'qmi?
+        <a href="register.html">Ro'yxatdan o'tish</a>
+      </p>
+
     </div>
 
-    <!-- ── RIGHT: Decorative panel ── -->
-    <div class="auth-right">
-      <div class="glow-blob blob-1"></div>
-      <div class="glow-blob blob-2"></div>
-      <div class="glow-blob blob-3"></div>
-
-      <div class="preview-card">
-        <!-- Orb -->
-        <div class="orb-wrap">
-          <div class="orb">
-            <div class="orb-dot"></div>
-            <div class="orb-dot"></div>
-            <div class="orb-dot"></div>
-          </div>
+    <!-- RIGHT: Tanuki Promo Art Banner -->
+    <div class="auth-banner-side">
+      <div>
+        <div class="banner-art-wrap">
+          <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80" alt="Tanuki sushi rolls">
+          <div class="banner-tag-floating">BONUSLAR 5%</div>
         </div>
 
-        <h2 class="preview-heading">Restaurant POS</h2>
-        <p class="preview-sub">Fast orders, smart receipts, and real-time reporting — all in one terminal.</p>
+        <h2 class="banner-title">Tanuki Family a'zosi bo'ling</h2>
+        <p class="banner-desc">Har bir buyurtmadan naqd keshbek yig'ing va restorandagi maxsus chegirmalarga ega bo'ling.</p>
+      </div>
 
-        <!-- Quick action pills -->
-        <div class="pill-row">
-          <span class="quick-pill">🖥️ Dashboard</span>
-          <span class="quick-pill">🛒 Orders</span>
-          <span class="quick-pill">📋 Menu</span>
-          <span class="quick-pill">📊 Reports</span>
+      <div class="perks-list">
+        <div class="perk-item">
+          <span>🎁</span>
+          <span>Ilk buyurtmada 50 000 so'm bonus sovg'a</span>
         </div>
-
-        <!-- Chat-style input mockup -->
-        <div class="chat-box">
-          <p class="chat-placeholder">Ask me anything......</p>
-          <div class="chat-actions">
-            <span class="chat-action-btn">📁 Files</span>
-            <span class="chat-action-btn">🔍 Search</span>
-            <span class="chat-spacer"></span>
-            <span class="chat-action-btn purple">⚡ Quick Login</span>
-          </div>
+        <div class="perk-item">
+          <span>🍣</span>
+          <span>Tug'ilgan kuningizda Sumiko seti uchun -20%</span>
+        </div>
+        <div class="perk-item">
+          <span>⚡</span>
+          <span>35 daqiqada tezyurar kuryer orqali yetkazish</span>
         </div>
       </div>
     </div>
@@ -516,64 +471,56 @@
   <script>
     // Eye toggle
     const eyeToggle = document.getElementById('eyeToggle');
-    const staffPassword = document.getElementById('staffPassword');
-    if (eyeToggle) eyeToggle.addEventListener('click', () => {
-      staffPassword.type = staffPassword.type === 'password' ? 'text' : 'password';
+    const loginPassword = document.getElementById('loginPassword');
+    eyeToggle?.addEventListener('click', () => {
+      loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
     });
 
-    // Quick login pill (right side)
-    document.querySelector('.chat-action-btn.purple')?.addEventListener('click', () => {
-      demoLogin();
-    });
+    // Form submit
+    const loginForm = document.getElementById('loginForm');
+    const authAlert = document.getElementById('authAlert');
 
-    function demoLogin() {
-      localStorage.setItem('aseria_pos_staff', JSON.stringify({
-        name: 'Aseria Staf',
-        id: '17129445521',
-        email: 'aseria@restaurant.com',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
-      }));
-      showAlert('Welcome! Loading POS Dashboard...', 'success');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
-    }
-
-    // Login form submit
-    document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+    loginForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('staffEmail').value.trim();
-      const password = staffPassword.value;
+      const phoneOrEmail = document.getElementById('loginPhone').value.trim();
+      const password = document.getElementById('loginPassword').value;
 
-      showAlert('Authenticating...', 'success');
+      showAlert('Tizimga kirilmoqda...', 'success');
 
+      // 1. Check Supabase
       if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient?.auth) {
         try {
           const { data, error } = await window.supabaseClient.auth.signInWithPassword({
-            email: email.includes('@') ? email : `${email}@aseriapos.com`,
+            email: phoneOrEmail.includes('@') ? phoneOrEmail : `${phoneOrEmail.replace(/\D/g, '')}@tanuki.uz`,
             password
           });
           if (!error && data?.user) {
-            localStorage.setItem('aseria_pos_staff', JSON.stringify({
-              name: data.user.user_metadata?.full_name || email.split('@')[0],
-              id: data.user.id?.slice(0, 11) || '17129445521',
-              email: data.user.email || email
+            localStorage.setItem('tanuki_user', JSON.stringify({
+              name: data.user.user_metadata?.full_name || phoneOrEmail,
+              phone: phoneOrEmail,
+              id: data.user.id
             }));
-            showAlert('Login successful!', 'success');
+            showAlert('Xush kelibsiz! Menyuga o\'tilmoqda...', 'success');
             setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
             return;
           }
         } catch(err) {}
       }
-      // Fallback
-      localStorage.setItem('aseria_pos_staff', JSON.stringify({ name: email.split('@')[0], id: '17129445521', email }));
-      showAlert('Welcome! Redirecting to POS...', 'success');
+
+      // 2. Fallback local login
+      localStorage.setItem('tanuki_user', JSON.stringify({
+        name: phoneOrEmail.includes('@') ? phoneOrEmail.split('@')[0] : phoneOrEmail,
+        phone: phoneOrEmail,
+        id: String(Date.now()).slice(-8)
+      }));
+      showAlert('Muvaffaqiyatli kirildi! Tanuki menyusiga o\'tilmoqda...', 'success');
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 600);
     });
 
     function showAlert(msg, type) {
-      const el = document.getElementById('authAlert');
-      if (!el) return;
-      el.textContent = msg;
-      el.className = `alert ${type}`;
+      if (!authAlert) return;
+      authAlert.textContent = msg;
+      authAlert.className = `auth-alert ${type}`;
     }
   </script>
 </body>

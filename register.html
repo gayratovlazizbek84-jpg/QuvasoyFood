@@ -1,500 +1,469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aseria POS — Register Staff</title>
+  <title>Ro'yxatdan o'tish — Tanuki Family</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --tanuki-red: #e31e24;
+      --tanuki-red-hover: #c4151b;
+      --tanuki-bg: #f5f5f7;
+      --tanuki-card: #ffffff;
+      --tanuki-text: #1d1d1f;
+      --tanuki-muted: #86868b;
+      --tanuki-border: #e6e6ea;
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #0e0b1a;
+      font-family: var(--font-family);
+      background-color: var(--tanuki-bg);
+      color: var(--tanuki-text);
       min-height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .auth-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      width: 100%;
-      max-width: 960px;
-      min-height: 640px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-
-    /* ────────────────────────────
-       LEFT — Form
-    ──────────────────────────── */
-    .auth-left {
-      background: #12101f;
-      padding: 48px 52px;
-      display: flex;
       flex-direction: column;
-      justify-content: center;
-    }
-
-    .brand-row {
-      display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 36px;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .brand-icon {
-      width: 34px; height: 34px;
-      background: linear-gradient(135deg,#a855f7,#7c3aed);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-    }
-
-    .brand-name {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .form-title {
-      font-size: 26px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 5px;
-    }
-
-    .form-subtitle {
-      font-size: 13.5px;
-      color: #8b8fa8;
-      margin-bottom: 28px;
-    }
-
-    .auth-form { display: flex; flex-direction: column; gap: 16px; }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    @media (max-width: 500px) {
-      .form-row { grid-template-columns: 1fr; }
-    }
-
-    .field-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: #9ca3af;
-      margin-bottom: 7px;
-      letter-spacing: 0.2px;
-    }
-
-    .field-wrap { position: relative; }
-
-    .field-input,
-    .field-select {
+    /* Top Back Link */
+    .top-back-bar {
       width: 100%;
-      background: #1c1930;
-      border: 1.5px solid rgba(255,255,255,0.07);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-family: inherit;
-      font-size: 13.5px;
-      color: #fff;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-    }
-
-    .field-select {
-      appearance: none;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b8fa8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-    }
-
-    .field-input:focus, .field-select:focus {
-      border-color: #a855f7;
-      box-shadow: 0 0 0 3px rgba(168,85,247,.18);
-    }
-
-    .field-input::placeholder { color: #4b4f68; }
-
-    .eye-btn {
-      position: absolute; right: 14px; top: 50%;
-      transform: translateY(-50%);
-      background: none; border: none;
-      color: #6b6f88; cursor: pointer;
-      display: flex; align-items: center;
-    }
-
-    .terms-row {
+      max-width: 980px;
+      margin-bottom: 16px;
       display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      font-size: 12.5px;
-      color: #8b8fa8;
+      justify-content: flex-start;
     }
 
-    .terms-row input[type="checkbox"] {
-      width: 15px; height: 15px;
-      accent-color: #a855f7;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-
-    .btn-register {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-      border: none;
-      color: #fff;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity .2s, transform .2s, box-shadow .2s;
-      box-shadow: 0 6px 20px rgba(124,58,237,0.4);
-      margin-top: 4px;
-    }
-
-    .btn-register:hover {
-      opacity: .92;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(124,58,237,0.5);
-    }
-
-    .signin-row {
-      text-align: center;
-      font-size: 13.5px;
-      color: #8b8fa8;
-      margin-top: 18px;
-    }
-
-    .signin-row a {
-      color: #a855f7;
-      font-weight: 700;
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       text-decoration: none;
-      margin-left: 4px;
+      color: var(--tanuki-text);
+      font-size: 13.5px;
+      font-weight: 700;
+      background: #ffffff;
+      padding: 8px 18px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.15s ease;
     }
 
-    .signin-row a:hover { text-decoration: underline; }
-
-    .alert {
-      display: none;
-      padding: 11px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-    .alert.error {
-      display: block;
-      background: rgba(239,68,68,.12);
-      border: 1px solid rgba(239,68,68,.3);
-      color: #fca5a5;
-    }
-    .alert.success {
-      display: block;
-      background: rgba(34,197,94,.12);
-      border: 1px solid rgba(34,197,94,.3);
-      color: #86efac;
+    .back-link:hover {
+      background: #f0f1f4;
+      transform: translateX(-2px);
     }
 
-    /* ────────────────────────────
-       RIGHT — Decorative panel
-    ──────────────────────────── */
-    .auth-right {
-      background: linear-gradient(145deg, #2d1b69 0%, #1e1245 40%, #3b1c7a 100%);
-      position: relative;
+    /* Main Auth Container */
+    .auth-container {
+      width: 100%;
+      max-width: 980px;
+      background: var(--tanuki-card);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--tanuki-border);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      min-height: 600px;
+    }
+
+    @media (max-width: 860px) {
+      .auth-container {
+        grid-template-columns: 1fr;
+      }
+      .auth-banner-side {
+        display: none !important;
+      }
+    }
+
+    /* Left Form Side */
+    .auth-form-side {
+      padding: 44px 48px 36px 48px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 48px 36px;
-      overflow: hidden;
     }
 
-    .glow-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      pointer-events: none;
-    }
-
-    .blob-1 {
-      width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, transparent 70%);
-      top: -60px; left: -60px;
-    }
-
-    .blob-2 {
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(124,58,237,0.6) 0%, transparent 70%);
-      bottom: -40px; right: -40px;
-    }
-
-    .blob-3 {
-      width: 160px; height: 160px;
-      background: radial-gradient(circle, rgba(196,130,255,0.35) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-    }
-
-    .preview-card {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      width: 100%;
-      max-width: 320px;
-      padding: 30px 24px;
-      position: relative;
-      z-index: 5;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12);
-    }
-
-    .orb-wrap {
-      width: 80px; height: 80px;
-      margin: 0 auto 18px;
-      position: relative;
-    }
-
-    .orb {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #d8b4fe, #9333ea 40%, #4c1d95 80%);
-      box-shadow:
-        0 0 30px rgba(168,85,247,0.7),
-        0 0 70px rgba(124,58,237,0.4),
-        inset 0 0 20px rgba(255,255,255,0.15);
-      animation: orbPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes orbPulse {
-      0%,100% { transform: scale(1); box-shadow: 0 0 30px rgba(168,85,247,0.7), 0 0 70px rgba(124,58,237,0.4); }
-      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(168,85,247,0.9), 0 0 90px rgba(124,58,237,0.6); }
-    }
-
-    .orb-dot {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.85);
-      animation: dotFloat 2.5s ease-in-out infinite alternate;
-    }
-
-    .orb-dot:nth-child(1) { width: 9px; height: 9px; top: 24px; left: 26px; }
-    .orb-dot:nth-child(2) { width: 6px; height: 6px; top: 38px; left: 46px; animation-delay: .5s; opacity: .7; }
-    .orb-dot:nth-child(3) { width: 4px; height: 4px; top: 18px; left: 48px; animation-delay: 1s; opacity: .5; }
-
-    @keyframes dotFloat {
-      from { transform: translateY(0); }
-      to { transform: translateY(-5px); }
-    }
-
-    .preview-heading {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .preview-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.5;
+    .brand-logo-badge {
+      display: inline-flex;
+      text-decoration: none;
       margin-bottom: 20px;
     }
 
-    /* Staff roles list */
-    .roles-list {
+    .logo-red-box {
+      background: var(--tanuki-red);
+      color: #fff;
+      border-radius: 12px;
+      padding: 6px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 18px;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(227, 30, 36, 0.28);
     }
 
-    .role-item {
+    .logo-brand-top {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      line-height: 1.1;
+    }
+
+    .logo-brand-sub {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      opacity: 0.95;
+      line-height: 1.1;
+    }
+
+    .form-heading {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--tanuki-text);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+
+    .form-subheading {
+      font-size: 13.5px;
+      color: var(--tanuki-muted);
+      line-height: 1.45;
+      margin-bottom: 22px;
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .form-row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--tanuki-text);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      background: #fafafc;
+      border: 1px solid var(--tanuki-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--tanuki-text);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-wrapper input:focus {
+      background: #ffffff;
+      border-color: var(--tanuki-red);
+      box-shadow: 0 0 0 3px rgba(227, 30, 36, 0.1);
+    }
+
+    .btn-auth-submit {
+      width: 100%;
+      border: none;
+      background: var(--tanuki-red);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 13px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(227, 30, 36, 0.3);
+      transition: all 0.2s ease;
+      margin-top: 6px;
+    }
+
+    .btn-auth-submit:hover {
+      background: var(--tanuki-red-hover);
+      transform: translateY(-1px);
+    }
+
+    .terms-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--tanuki-muted);
+      cursor: pointer;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .terms-label input {
+      margin-top: 2px;
+    }
+
+    .auth-alert {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .auth-alert.error {
+      display: block;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    .auth-alert.success {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .form-switch-prompt {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 13.5px;
+      color: var(--tanuki-muted);
+    }
+
+    .form-switch-prompt a {
+      color: var(--tanuki-red);
+      text-decoration: none;
+      font-weight: 800;
+      margin-left: 4px;
+    }
+
+    .form-switch-prompt a:hover {
+      text-decoration: underline;
+    }
+
+    /* Right Banner Side */
+    .auth-banner-side {
+      background: linear-gradient(145deg, #1d1d1f 0%, #2c1a24 100%);
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      color: #ffffff;
+    }
+
+    .banner-art-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .banner-art-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .banner-tag-floating {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--tanuki-red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .banner-desc {
+      font-size: 13px;
+      opacity: 0.85;
+      line-height: 1.45;
+      margin-bottom: 20px;
+    }
+
+    .perks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .perk-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 9px 14px;
-      text-align: left;
-    }
-
-    .role-icon {
-      font-size: 16px;
-      width: 28px;
-      height: 28px;
-      background: rgba(168,85,247,0.2);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .role-text strong {
-      display: block;
       font-size: 12.5px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .role-text span {
-      font-size: 11px;
-      color: rgba(255,255,255,0.5);
-    }
-
-    .join-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg,#a855f7,#7c3aed);
-      border-radius: 20px;
-      padding: 9px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      cursor: default;
-      box-shadow: 0 4px 14px rgba(124,58,237,0.4);
-    }
-
-    @media (max-width: 720px) {
-      .auth-wrap { grid-template-columns: 1fr; }
-      .auth-right { display: none; }
-      .auth-left { padding: 36px 24px; }
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 12px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-wrap">
+  <!-- Top Back Button -->
+  <div class="top-back-bar">
+    <a href="dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Menyuga qaytish</span>
+    </a>
+  </div>
 
-    <!-- ── LEFT: Form ── -->
-    <div class="auth-left">
-      <div class="brand-row">
-        <div class="brand-icon">🍕</div>
-        <span class="brand-name">Aseria POS</span>
-      </div>
+  <!-- Auth Card -->
+  <div class="auth-container">
+    
+    <!-- LEFT: Register Form -->
+    <div class="auth-form-side">
+      
+      <!-- Brand Logo Badge -->
+      <a href="dashboard.html" class="brand-logo-badge">
+        <span class="logo-red-box">
+          <span class="logo-brand-top">TANUKI</span>
+          <span class="logo-brand-sub">FAMILY</span>
+        </span>
+      </a>
 
-      <h1 class="form-title">Create Account</h1>
-      <p class="form-subtitle">Join the Restaurant Terminal as a Staff Member</p>
+      <h1 class="form-heading">Ro'yxatdan o'tish</h1>
+      <p class="form-subheading">Tanuki Family oilasiga qo'shiling va birinchi buyurtmangizdayoq keshbek oling.</p>
 
-      <div class="alert" id="authAlert"></div>
+      <div class="auth-alert" id="authAlert"></div>
 
-      <form class="auth-form" id="registerForm">
-
-        <div class="form-row">
-          <div>
-            <label class="field-label" for="regFullName">Full Name</label>
-            <input type="text" id="regFullName" class="field-input" placeholder="e.g. Aseria Staf" required>
-          </div>
-          <div>
-            <label class="field-label" for="regRole">Role</label>
-            <select id="regRole" class="field-select" required>
-              <option value="Cashier">Cashier</option>
-              <option value="Waiter">Waiter / Server</option>
-              <option value="Kitchen Lead">Kitchen Lead</option>
-              <option value="Shift Manager">Shift Manager</option>
-            </select>
+      <form id="registerForm" class="auth-form">
+        
+        <!-- Ism & Familiya -->
+        <div class="form-field">
+          <label for="regName">Ism va familiyangiz</label>
+          <div class="input-wrapper">
+            <input type="text" id="regName" placeholder="Azizbek Aliyev" required autocomplete="name">
           </div>
         </div>
 
-        <div>
-          <label class="field-label" for="regEmail">Email address</label>
-          <input type="email" id="regEmail" class="field-input" placeholder="staff@restaurant.com" required>
-        </div>
-
-        <div class="form-row">
-          <div>
-            <label class="field-label" for="regPassword">Passwords</label>
-            <div class="field-wrap">
-              <input type="password" id="regPassword" class="field-input" placeholder="••••••••" required minlength="6">
-              <button type="button" class="eye-btn" id="eyeToggle">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
+        <!-- Telefon & Tug'ilgan sana -->
+        <div class="form-row-grid">
+          <div class="form-field">
+            <label for="regPhone">Telefon raqam</label>
+            <div class="input-wrapper">
+              <input type="tel" id="regPhone" placeholder="+998 90 123 45 67" required autocomplete="tel">
             </div>
           </div>
-          <div>
-            <label class="field-label" for="regConfirm">Confirm</label>
-            <input type="password" id="regConfirm" class="field-input" placeholder="••••••••" required minlength="6">
+
+          <div class="form-field">
+            <label for="regBirthday">Tug'ilgan sana (sovg'a uchun)</label>
+            <div class="input-wrapper">
+              <input type="date" id="regBirthday">
+            </div>
           </div>
         </div>
 
-        <div class="terms-row">
-          <input type="checkbox" id="terms" checked required>
-          <label for="terms">I agree to Restaurant POS Operating Policies &amp; Terminal Protocols</label>
+        <!-- Parol va Tasdiqlash -->
+        <div class="form-row-grid">
+          <div class="form-field">
+            <label for="regPassword">Parol</label>
+            <div class="input-wrapper">
+              <input type="password" id="regPassword" placeholder="••••••••" required autocomplete="new-password">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="regConfirmPassword">Parolni tasdiqlang</label>
+            <div class="input-wrapper">
+              <input type="password" id="regConfirmPassword" placeholder="••••••••" required autocomplete="new-password">
+            </div>
+          </div>
         </div>
 
-        <button type="submit" class="btn-register">Create Account</button>
+        <!-- Rozilik checkbox -->
+        <label class="terms-label">
+          <input type="checkbox" id="termsCheck" checked required>
+          <span>Tanuki Family sodiqlik dasturi shartlariga va shaxsiy ma'lumotlarni qayta ishlashga roziman.</span>
+        </label>
 
+        <!-- Submit Button -->
+        <button type="submit" class="btn-auth-submit" id="submitRegBtn">
+          A'zo bo'lish
+        </button>
       </form>
 
-      <div class="signin-row">
-        Already have an account? <a href="login.html">Sign In</a>
-      </div>
+      <p class="form-switch-prompt">
+        Hisobingiz bormi?
+        <a href="login.html">Kirish</a>
+      </p>
+
     </div>
 
-    <!-- ── RIGHT: Decorative panel ── -->
-    <div class="auth-right">
-      <div class="glow-blob blob-1"></div>
-      <div class="glow-blob blob-2"></div>
-      <div class="glow-blob blob-3"></div>
-
-      <div class="preview-card">
-        <div class="orb-wrap">
-          <div class="orb">
-            <div class="orb-dot"></div>
-            <div class="orb-dot"></div>
-            <div class="orb-dot"></div>
-          </div>
+    <!-- RIGHT: Tanuki Promo Art Banner -->
+    <div class="auth-banner-side">
+      <div>
+        <div class="banner-art-wrap">
+          <img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=600&q=80" alt="Tanuki sushi rolls">
+          <div class="banner-tag-floating">YANGI A'ZOLARGA</div>
         </div>
 
-        <h2 class="preview-heading">Join Our Team</h2>
-        <p class="preview-sub">Register your staff terminal account and start serving customers with the POS system.</p>
+        <h2 class="banner-title">50 000 so'm xush kelibsiz bonusi</h2>
+        <p class="banner-desc">Ro'yxatdan o'tgandan so'ng hisobingizga avtomatik tarzda 50 000 bonus ballari taqdim etiladi.</p>
+      </div>
 
-        <div class="roles-list">
-          <div class="role-item">
-            <div class="role-icon">💳</div>
-            <div class="role-text">
-              <strong>Cashier</strong>
-              <span>Orders &amp; payments</span>
-            </div>
-          </div>
-          <div class="role-item">
-            <div class="role-icon">🍽️</div>
-            <div class="role-text">
-              <strong>Waiter / Server</strong>
-              <span>Table service</span>
-            </div>
-          </div>
-          <div class="role-item">
-            <div class="role-icon">👨‍🍳</div>
-            <div class="role-text">
-              <strong>Kitchen Lead</strong>
-              <span>KDS &amp; prep orders</span>
-            </div>
-          </div>
+      <div class="perks-list">
+        <div class="perk-item">
+          <span>🎁</span>
+          <span>Har bir chekdan 5% keshbek hisobingizga qaytadi</span>
         </div>
-
-        <div class="join-badge">
-          ✨ Start your shift today
+        <div class="perk-item">
+          <span>🍣</span>
+          <span>Tug'ilgan kuningizda butun menyuga 20% chegirma</span>
+        </div>
+        <div class="perk-item">
+          <span>📱</span>
+          <span>Buyurtmalar tarixini qulay kuzatib boring</span>
         </div>
       </div>
     </div>
@@ -502,63 +471,58 @@
   </div>
 
   <script>
-    // Eye toggle
-    document.getElementById('eyeToggle')?.addEventListener('click', () => {
-      const pw = document.getElementById('regPassword');
-      pw.type = pw.type === 'password' ? 'text' : 'password';
-    });
+    const registerForm = document.getElementById('registerForm');
+    const authAlert = document.getElementById('authAlert');
 
-    // Register form
-    document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+    registerForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const fullName = document.getElementById('regFullName').value.trim();
-      const role = document.getElementById('regRole').value;
-      const email = document.getElementById('regEmail').value.trim();
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const birthday = document.getElementById('regBirthday').value;
       const password = document.getElementById('regPassword').value;
-      const confirm = document.getElementById('regConfirm').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
 
-      if (password !== confirm) {
-        showAlert('Passwords do not match!', 'error');
+      if (password !== confirmPassword) {
+        showAlert('Parollar bir-biriga mos kelmadi!', 'error');
         return;
       }
 
-      showAlert('Creating your account...', 'success');
+      showAlert('Hisobingiz yaratilmoqda...', 'success');
 
+      // 1. Check Supabase
       if (typeof window.supabaseClient !== 'undefined' && window.supabaseClient?.auth) {
         try {
+          const email = `${phone.replace(/\D/g, '')}@tanuki.uz`;
           const { data, error } = await window.supabaseClient.auth.signUp({
             email,
             password,
-            options: { data: { full_name: fullName, role } }
+            options: {
+              data: { full_name: name, phone, birthday }
+            }
           });
           if (!error && data?.user) {
-            localStorage.setItem('aseria_pos_staff', JSON.stringify({
-              name: fullName,
-              id: data.user.id?.slice(0, 11) || String(Date.now()).slice(-11),
-              email, role
+            localStorage.setItem('tanuki_user', JSON.stringify({
+              name, phone, birthday, id: data.user.id
             }));
-            showAlert('Account created! Entering POS...', 'success');
+            showAlert('Tabriklaymiz! Hisob yaratildi, menyuga o\'tilmoqda...', 'success');
             setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
             return;
           }
         } catch(err) {}
       }
 
-      // Fallback
-      localStorage.setItem('aseria_pos_staff', JSON.stringify({
-        name: fullName,
-        id: String(Date.now()).slice(-11),
-        email, role
+      // 2. Fallback local storage
+      localStorage.setItem('tanuki_user', JSON.stringify({
+        name, phone, birthday, id: String(Date.now()).slice(-8)
       }));
-      showAlert('Welcome aboard! Loading POS...', 'success');
+      showAlert('Tabriklaymiz! 50 000 bonus hisobingizga taqdim etildi. Menyuga o\'tilmoqda...', 'success');
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
     });
 
     function showAlert(msg, type) {
-      const el = document.getElementById('authAlert');
-      if (!el) return;
-      el.textContent = msg;
-      el.className = `alert ${type}`;
+      if (!authAlert) return;
+      authAlert.textContent = msg;
+      authAlert.className = `auth-alert ${type}`;
     }
   </script>
 </body>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aseria POS — Restaurant Dashboard</title>
+  <title>Tanuki Family — Restoranlar va taom yetkazib berish</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,276 +11,449 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabaseClient.js"></script>
 </head>
-<body class="pos-body">
+<body class="tanuki-body">
 
-  <div class="pos-layout">
+  <!-- TOP APP WRAPPER -->
+  <div class="tanuki-app">
 
-    <!-- 1. LEFT ICON NAVIGATION BAR -->
-    <aside class="pos-sidebar">
-      
-      <!-- Top Brand Diamond Logo (4 dots orange) -->
-      <div class="pos-brand-logo">
-        <div class="diamond-dots">
-          <span class="dot top"></span>
-          <span class="dot left"></span>
-          <span class="dot right"></span>
-          <span class="dot bottom"></span>
-        </div>
-      </div>
-
-      <!-- Main Icon Nav Items -->
-      <nav class="pos-nav-icons">
-        <!-- Active Dashboard / Grid icon -->
-        <button type="button" class="sidebar-icon-btn active" data-tooltip="POS Terminal" id="navTerminalBtn">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="3" y="3" width="7" height="7" rx="2"></rect>
-            <rect x="14" y="3" width="7" height="7" rx="2"></rect>
-            <rect x="3" y="14" width="7" height="7" rx="2"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
-          </svg>
-        </button>
-
-        <!-- Messages / Chat -->
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Messages" id="navMessagesBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        </button>
-
-        <!-- Order Bills / Receipts -->
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Order History" id="navOrdersBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-        </button>
-
-        <!-- Tasks / Completed list -->
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Kitchen Display" id="navKitchenBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-          </svg>
-        </button>
-
-        <!-- Analytics -->
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Reports" id="navAnalyticsBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"></line>
-            <line x1="12" y1="20" x2="12" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="14"></line>
-          </svg>
-        </button>
-
-        <!-- Menu Management -->
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Menu Editor" id="navMenuBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="8" y1="6" x2="21" y2="6"></line>
-            <line x1="8" y1="12" x2="21" y2="12"></line>
-            <line x1="8" y1="18" x2="21" y2="18"></line>
-            <line x1="3" y1="6" x2="3.01" y2="6"></line>
-            <line x1="3" y1="12" x2="3.01" y2="12"></line>
-            <line x1="3" y1="18" x2="3.01" y2="18"></line>
-          </svg>
-        </button>
-      </nav>
-
-      <!-- Bottom Icon Actions (Settings, Logout) -->
-      <div class="pos-sidebar-bottom">
-        <button type="button" class="sidebar-icon-btn" data-tooltip="Settings" id="navSettingsBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        </button>
-
-        <a href="login.html" class="sidebar-icon-btn" data-tooltip="Sign Out" id="navLogoutBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </a>
-      </div>
-
-    </aside>
-
-    <!-- 2. MAIN CENTER CONTENT AREA -->
-    <main class="pos-main">
-      
-      <!-- Top Header Row -->
-      <header class="pos-topbar">
+    <!-- 1. MAIN GLOBAL HEADER -->
+    <header class="tanuki-header">
+      <div class="header-inner">
         
-        <!-- User Staff Badge -->
-        <div class="user-badge-wrap" id="userProfileBadge">
-          <div class="avatar-circle">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Staff avatar" id="staffAvatar">
+        <!-- Brand Logo Badge -->
+        <a href="dashboard.html" class="brand-badge-logo" aria-label="Tanuki Family">
+          <span class="logo-red-box">
+            <span class="logo-brand-top">TANUKI</span>
+            <span class="logo-brand-sub">FAMILY</span>
+          </span>
+        </a>
+
+        <!-- Language Pill -->
+        <div class="header-pill lang-picker" id="langPicker">
+          <span class="flag-icon">🇺🇿</span>
+          <span class="lang-code" id="currentLangText">Uz</span>
+          <svg class="chevron-down" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="uz">🇺🇿 O'zbekcha</div>
+            <div class="lang-option" data-lang="ru">🇷🇺 Русский</div>
+            <div class="lang-option" data-lang="en">🇬🇧 English</div>
           </div>
-          <div class="user-info">
-            <strong class="user-name" id="staffNameDisplay">Aseria Staf</strong>
-            <span class="user-id" id="staffIdDisplay">17129445521</span>
+        </div>
+
+        <!-- City Selector -->
+        <div class="header-pill city-picker" id="cityPicker">
+          <span class="city-name" id="selectedCityName">Toshkent</span>
+          <svg class="chevron-down" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="city-dropdown" id="cityDropdown">
+            <div class="city-option active">Toshkent</div>
+            <div class="city-option">Samarqand</div>
+            <div class="city-option">Farg'ona</div>
+            <div class="city-option">Quvasoy</div>
+            <div class="city-option">Andijon</div>
+            <div class="city-option">Namangan</div>
           </div>
         </div>
 
-        <!-- Category Pill Chips Bar -->
-        <div class="category-chips-bar" id="categoryChipsBar">
-          
-          <!-- Active: Pizza (Orange Pill with icon) -->
-          <button type="button" class="pos-cat-chip active" data-category="pizza">
-            <span class="cat-icon">🍕</span>
-            <span>Pizza</span>
+        <!-- Delivery Address Input -->
+        <div class="address-input-wrapper">
+          <svg class="addr-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <input type="text" id="deliveryAddressInput" placeholder="Manzilingizni belgilang" value="Amir Temur ko'chasi, 24">
+        </div>
+
+        <!-- Table Reservation Banner / Button -->
+        <button type="button" class="table-reservation-pill" id="openTableBookingBtn">
+          <div class="res-thumb">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=80&q=80" alt="Restoran">
+          </div>
+          <div class="res-text">
+            <span class="res-sub">Sizni restoranlarda kutib qolamiz!</span>
+            <strong class="res-title">Stolni band qilish</strong>
+          </div>
+        </button>
+
+        <!-- Right Header Actions (Bonuslar, Kirish / User, Savat) -->
+        <div class="header-right">
+          <!-- Bonuslar badge button -->
+          <button type="button" class="bonus-badge-btn" id="openBonusBtn">
+            <span class="bonus-burst">
+              <svg class="star-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Bonuslar
+            </span>
           </button>
 
-          <!-- Hot drinks -->
-          <button type="button" class="pos-cat-chip" data-category="hot-drinks">
-            <span class="cat-icon">☕</span>
-            <span>Hot drinks</span>
-          </button>
+          <!-- Kirish / User profile link -->
+          <div class="auth-action-wrap" id="authActionArea">
+            <a href="login.html" class="header-link-btn" id="headerLoginBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Kirish</span>
+            </a>
+          </div>
 
-          <!-- Cold drinks -->
-          <button type="button" class="pos-cat-chip" data-category="cold-drinks">
-            <span class="cat-icon">🥤</span>
-            <span>Cold drinks</span>
+          <!-- Savat / Cart button -->
+          <button type="button" class="cart-pill-btn" id="openCartBtn">
+            <svg class="cart-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span class="cart-count" id="cartTotalCount">0</span>
           </button>
+        </div>
 
-          <!-- Dessert -->
-          <button type="button" class="pos-cat-chip" data-category="dessert">
-            <span class="cat-icon">🧁</span>
-            <span>Dessert</span>
-          </button>
+      </div>
+    </header>
 
-          <!-- Burgers -->
-          <button type="button" class="pos-cat-chip" data-category="burgers">
-            <span class="cat-icon">🍔</span>
-            <span>Burgers</span>
-          </button>
+
+    <!-- 2. BRAND NAVIGATION TABS (TANUKI, TVOYA PIZZA, KASPIYKA, KEYTERING) -->
+    <nav class="brand-tabs-nav">
+      <div class="brand-tabs-scroll">
+        
+        <!-- Brand 1: TANUKI (Active Red) -->
+        <button type="button" class="brand-tab active" data-brand="tanuki">
+          <span class="brand-tab-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </span>
+          <span class="brand-tab-title">TANUKI</span>
+        </button>
+
+        <!-- Brand 2: TVOYA Pizza -->
+        <button type="button" class="brand-tab" data-brand="tvoya-pizza">
+          <span class="brand-tab-icon brand-tvoya">
+            <span class="tvoya-c">🍕</span>
+          </span>
+          <span class="brand-tab-title">TVOЯ Pizza</span>
+        </button>
+
+        <!-- Brand 3: KASPIYKA -->
+        <button type="button" class="brand-tab" data-brand="kaspiyka">
+          <span class="brand-tab-icon brand-kaspiyka">
+            <span>🐟</span>
+          </span>
+          <span class="brand-tab-title">KASPIYKA</span>
+        </button>
+
+        <!-- Brand 4: Keytering -->
+        <button type="button" class="brand-tab" data-brand="catering">
+          <span class="brand-tab-icon brand-catering">
+            <span>🧡</span>
+          </span>
+          <span class="brand-tab-title">Keytering</span>
+        </button>
+
+      </div>
+    </nav>
+
+
+    <!-- 3. STORIES / PROMO BANNERS CAROUSEL -->
+    <section class="stories-section">
+      <div class="stories-container">
+        <div class="stories-track" id="storiesTrack">
+
+          <!-- Story 1: Omad charxpalagi -->
+          <div class="story-card" data-story="wheel">
+            <div class="story-card-inner">
+              <div class="story-img-wrap">
+                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=500&q=80" alt="Omad charxpalagi">
+                <div class="story-floating-badge badge-purple">
+                  <span>Sizni mukofotlar kutib turibdi!</span>
+                </div>
+              </div>
+              <div class="story-content">
+                <div class="story-badge-icon">🔮</div>
+                <h3 class="story-title">Omad charxpalagi</h3>
+                <p class="story-desc">Aylantiring va Sumiko setini yutib oling</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story 2: Faqat eng-englari -->
+          <div class="story-card" data-story="favorites">
+            <div class="story-card-inner">
+              <div class="story-img-wrap">
+                <img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=500&q=80" alt="Sevimli tamlaringiz">
+                <div class="story-floating-badge badge-red">
+                  <span>Sevimli ta'mlaringiz</span>
+                </div>
+              </div>
+              <div class="story-content">
+                <div class="story-badge-icon">🍱</div>
+                <h3 class="story-title">Faqat eng-englari</h3>
+                <p class="story-desc">Qaytish istagini tug'diradigan barchasi</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story 3: Gyodza va dim-samlar festivali -->
+          <div class="story-card" data-story="festival">
+            <div class="story-card-inner">
+              <div class="story-img-wrap">
+                <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=500&q=80" alt="Gyodza va dim-samlar festivali">
+                <div class="story-floating-badge badge-red-bright">
+                  <span>Yangi ta'mlar</span>
+                </div>
+              </div>
+              <div class="story-content">
+                <div class="story-badge-icon">🥟</div>
+                <h3 class="story-title">Gyodza va dim-samlar festivali</h3>
+                <p class="story-desc">Yangi taomlarni restoranlarda va yetkazmada tatib ko'ring</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story 4: Onlayn uchrashamizmi? -->
+          <div class="story-card" data-story="online">
+            <div class="story-card-inner">
+              <div class="story-img-wrap">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=500&q=80" alt="Eng zor takliflar">
+                <div class="story-floating-badge badge-red-bright">
+                  <span>Eng zo'r takliflar</span>
+                </div>
+              </div>
+              <div class="story-content">
+                <div class="story-badge-icon">❤️</div>
+                <h3 class="story-title">Onlayn uchrashamizmi?</h3>
+                <p class="story-desc">Ijtimoiy tarmoqda biz bilan qoling</p>
+              </div>
+            </div>
+          </div>
 
         </div>
 
-        <!-- Search Input Bar -->
-        <div class="pos-search-wrapper">
-          <svg class="search-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="posSearchInput" placeholder="Search product by name, categories or SKU">
-          <button type="button" class="clear-search-btn" id="clearSearchBtn" aria-label="Clear search">&times;</button>
+        <!-- Next scroll button -->
+        <button type="button" class="stories-next-btn" id="storiesNextBtn" aria-label="Keyingisi">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+
+    <!-- 4. WHITE FILTERS & SEARCH CONTAINER BAR -->
+    <div class="menu-filters-card">
+      
+      <!-- Top Row: Map button + Search bar -->
+      <div class="filters-top-row">
+        <!-- Xaritadagi restoranlar button -->
+        <button type="button" class="btn-map-restaurants" id="openRestaurantsMapBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Xaritadagi restoranlar</span>
+        </button>
+
+        <!-- Menyu ichidagi qidiruv -->
+        <div class="menu-search-box">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="menuSearchInput" placeholder="Menyu ichidagi qidiruv">
+          <button type="button" class="clear-search-btn" id="clearMenuSearch">&times;</button>
         </div>
+      </div>
 
-      </header>
+      <!-- Bottom Row: Category Horizontal Pills -->
+      <div class="categories-bar-wrapper">
+        <div class="categories-pills-list" id="categoryPillsList">
+          <button type="button" class="cat-pill active" data-category="festival">Festival</button>
+          <button type="button" class="cat-pill" data-category="hits">Sotuv xitlari</button>
+          <button type="button" class="cat-pill" data-category="rolls">Rollar</button>
+          <button type="button" class="cat-pill" data-category="sushi">Sushisi</button>
+          <button type="button" class="cat-pill" data-category="sashimi">Sashimi</button>
+          <button type="button" class="cat-pill" data-category="sets">Setlar</button>
+          <button type="button" class="cat-pill" data-category="appetizers">Gazak</button>
+          <button type="button" class="cat-pill" data-category="salads">Salatlar</button>
+          <button type="button" class="cat-pill" data-category="soups">Suyuq ovqatlar</button>
+          <button type="button" class="cat-pill" data-category="hot-dishes">Issiq ovqatlar</button>
+          <button type="button" class="cat-pill" data-category="desserts">Desertlar</button>
+          <button type="button" class="cat-pill" data-category="kids">Bolalar menyusi</button>
+        </div>
+        <button type="button" class="cat-scroll-next" id="catScrollNext" aria-label="Keyingisi">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
 
-      <!-- Products Grid -->
-      <section class="pos-products-grid" id="posProductsGrid">
-        <!-- Rendered dynamically by dashboard.js matching the exact 6 pizzas in Dribbble screenshot -->
+    </div>
+
+
+    <!-- 5. MAIN SECTION: SECTION HEADING + PRODUCTS GRID -->
+    <main class="tanuki-main-content">
+      
+      <!-- Current Category Heading -->
+      <div class="section-header-row">
+        <h1 class="current-section-title" id="currentSectionTitle">Festival</h1>
+        <span class="products-count-badge" id="productsCountBadge">8 ta taom</span>
+      </div>
+
+      <!-- Products Grid Container -->
+      <section class="dishes-grid" id="dishesGrid">
+        <!-- Injected dynamically via dashboard.js matching exactly the 5 dishes in the screenshot and more -->
       </section>
 
     </main>
 
-    <!-- 3. RIGHT ORDER SUMMARY SIDEBAR -->
-    <aside class="pos-order-sidebar">
-      
-      <!-- Top Order Type Pill Selector (Take away | Dine in) -->
-      <div class="order-type-tabs">
-        <button type="button" class="type-tab-btn active" data-type="takeaway" id="tabTakeaway">
-          Take away
-        </button>
-        <button type="button" class="type-tab-btn" data-type="dinein" id="tabDinein">
-          Dine in
-        </button>
-      </div>
 
-      <!-- Section Title -->
-      <div class="order-header-row">
-        <h2 class="order-title">Items</h2>
-        <span class="order-badge" id="orderItemsCountBadge">2 items</span>
+    <!-- 6. BOTTOM FLOATING CART BAR (MOBILE/TABLET) -->
+    <div class="floating-cart-bar" id="floatingCartBar">
+      <div class="float-cart-info">
+        <span class="float-cart-qty" id="floatCartQty">0 ta taom</span>
+        <strong class="float-cart-sum" id="floatCartSum">0 so'm</strong>
       </div>
-
-      <!-- Live Order Items List -->
-      <div class="order-items-list" id="orderItemsList">
-        <!-- Injected via dashboard.js with exact match to image items -->
-      </div>
-
-      <!-- Order Calculation Breakdown -->
-      <div class="order-calculation">
-        <div class="calc-row">
-          <span>Subtotal</span>
-          <strong id="posSubtotal">$28.98</strong>
-        </div>
-        <div class="calc-row">
-          <span>Tax(5%)</span>
-          <strong id="posTax">$1.45</strong>
-        </div>
-        <div class="calc-row">
-          <span>Discount</span>
-          <strong id="posDiscount">-$0.00</strong>
-        </div>
-        <div class="calc-divider"></div>
-        <div class="calc-row total-row">
-          <span>Total</span>
-          <strong class="grand-total-amount" id="posGrandTotal">$30.43</strong>
-        </div>
-      </div>
-
-      <!-- Action Button: Print Receipt -->
-      <button type="button" class="btn btn-print-receipt" id="printReceiptBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 6 2 18 2 18 9"></polyline>
-          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-          <rect x="6" y="14" width="12" height="8"></rect>
-        </svg>
-        <span>Print Receipt</span>
+      <button type="button" class="float-cart-action" id="floatCartOpenBtn">
+        <span>Savatga o'tish</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
+    </div>
 
-    </aside>
+  </div> <!-- /tanuki-app -->
 
-  </div>
 
-  <!-- RECEIPT PRINT PREVIEW MODAL -->
-  <div class="modal-backdrop" id="receiptModal" aria-hidden="true">
-    <div class="receipt-paper">
-      <button type="button" class="receipt-close" id="closeReceiptModal">&times;</button>
-      <div class="receipt-header">
-        <div class="receipt-logo">🍕 ASERIA POS</div>
-        <p>124 Grand Mercer Avenue, Suite 101</p>
-        <p>Tel: +1 (555) 019-8234</p>
-        <p class="receipt-meta">
-          Order: <strong id="receiptOrderNum">#ORD-9428</strong> &bull; 
-          <span id="receiptOrderType">Take away</span> &bull; 
-          Staff: <strong id="receiptStaffName">Aseria Staf</strong>
-        </p>
+  <!-- ==============================================
+       CART SLIDE-IN DRAWER
+       ============================================== -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-title-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <h2>Savatchangiz</h2>
+      </div>
+      <button type="button" class="drawer-close-btn" id="closeCartBtn">&times;</button>
+    </div>
+
+    <!-- Delivery / Pickup Tabs -->
+    <div class="order-mode-selector">
+      <button type="button" class="mode-btn active" data-mode="delivery">Yetkazib berish</button>
+      <button type="button" class="mode-btn" data-mode="pickup">Olib ketish (-10%)</button>
+    </div>
+
+    <!-- Cart Items Scroll List -->
+    <div class="cart-items-container" id="cartItemsContainer">
+      <!-- Populated via dashboard.js -->
+    </div>
+
+    <!-- Empty Cart State -->
+    <div class="empty-cart-state" id="emptyCartState">
+      <div class="empty-icon">🍣</div>
+      <h3>Savat hozircha bo'sh</h3>
+      <p>Menyudan o'zingiz yoqtirgan mazali taomlarni tanlang!</p>
+    </div>
+
+    <!-- Cart Footer & Summary -->
+    <div class="drawer-footer" id="drawerFooter">
+      <div class="summary-line">
+        <span>Taomlar narxi:</span>
+        <strong id="cartSubtotalText">0 so'm</strong>
+      </div>
+      <div class="summary-line">
+        <span>Yetkazib berish:</span>
+        <span class="delivery-free-badge">Bepul</span>
+      </div>
+      <div class="summary-line total-line">
+        <span>Jami to'lov:</span>
+        <strong class="total-price" id="cartTotalText">0 so'm</strong>
       </div>
 
-      <div class="receipt-divider">--------------------------------</div>
+      <button type="button" class="btn-checkout-red" id="checkoutBtn">
+        Buyurtma berish
+      </button>
+    </div>
+  </aside>
 
-      <div class="receipt-items-table" id="receiptItemsTable">
-        <!-- Populated via JS -->
+
+  <!-- ==============================================
+       TABLE BOOKING MODAL (STOLNI BAND QILISH)
+       ============================================== -->
+  <div class="modal-backdrop" id="tableBookingModal" aria-hidden="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-cross" id="closeTableBookingModal">&times;</button>
+      
+      <div class="modal-hero-badge">
+        <span class="hero-icon">🍽️</span>
+        <h3>Stolni band qilish</h3>
+        <p>Tanuki restoranlarida ajoyib muhit va mazali taomlardan bahramand bo'ling</p>
       </div>
 
-      <div class="receipt-divider">--------------------------------</div>
+      <form id="tableBookingForm" class="booking-form">
+        <div class="form-row">
+          <label>Restoranni tanlang</label>
+          <select id="bookRestaurant" required>
+            <option value="tashkent-center">Tanuki — Amir Temur ko'chasi, 24</option>
+            <option value="tashkent-chilanzar">Tanuki — Chilonzor, Bunyodkor shoh ko'chasi</option>
+            <option value="tashkent-mirzo">Tanuki — Mirzo Ulug'bek prospekti, 15</option>
+            <option value="tashkent-tvoiapizza">TVOЯ Pizza — Oybek ko'chasi, 8</option>
+          </select>
+        </div>
 
-      <div class="receipt-summary">
-        <div class="receipt-line"><span>Subtotal:</span> <span id="rSubtotal">$0.00</span></div>
-        <div class="receipt-line"><span>Tax (5%):</span> <span id="rTax">$0.00</span></div>
-        <div class="receipt-line"><span>Discount:</span> <span id="rDiscount">-$0.00</span></div>
-        <div class="receipt-line receipt-total"><span>TOTAL:</span> <strong id="rTotal">$0.00</strong></div>
-      </div>
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label>Sana</label>
+            <input type="date" id="bookDate" required>
+          </div>
+          <div class="form-row">
+            <label>Vaqt</label>
+            <input type="time" id="bookTime" value="19:00" required>
+          </div>
+        </div>
 
-      <div class="receipt-footer">
-        <p>Thank you for choosing Aseria!</p>
-        <p>Have a wonderful day!</p>
-        <button type="button" class="btn btn-primary-orange full-width" onclick="window.print()">
-          Print Paper Slip 🖨️
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label>Mehmonlar soni</label>
+            <select id="bookGuests">
+              <option value="2">2 kishi</option>
+              <option value="3">3 kishi</option>
+              <option value="4" selected>4 kishi</option>
+              <option value="6">6 kishi</option>
+              <option value="8+">8 kishidan ko'p</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Telefon raqam</label>
+            <input type="tel" id="bookPhone" placeholder="+998 90 123 45 67" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Ismingiz</label>
+          <input type="text" id="bookName" placeholder="Ismingizni kiriting" required>
+        </div>
+
+        <button type="submit" class="btn-submit-booking">
+          Joyni band qilish
         </button>
-      </div>
+      </form>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATIONS -->
-  <div class="pos-toast-stack" id="posToastContainer"></div>
 
+  <!-- ==============================================
+       BONUS / WHEEL OF FORTUNE MODAL
+       ============================================== -->
+  <div class="modal-backdrop" id="bonusModal" aria-hidden="true">
+    <div class="modal-card bonus-modal-card">
+      <button type="button" class="modal-close-cross" id="closeBonusModal">&times;</button>
+      
+      <div class="bonus-header-wrap">
+        <span class="bonus-fire">🎁</span>
+        <h3>Tanuki Family Bonuslari</h3>
+        <p>Har bir buyurtmadan 5% keshbek va har hafta yangi sovg'alar!</p>
+      </div>
+
+      <div class="wheel-box">
+        <div class="wheel-pointer">🔻</div>
+        <div class="wheel-circle" id="wheelCircle">
+          <div class="wheel-segment seg-1"><span>Sumiko seti</span></div>
+          <div class="wheel-segment seg-2"><span>50k bonus</span></div>
+          <div class="wheel-segment seg-3"><span>Roll bonus</span></div>
+          <div class="wheel-segment seg-4"><span>Bepul yetkazish</span></div>
+          <div class="wheel-segment seg-5"><span>10% chegirma</span></div>
+          <div class="wheel-segment seg-6"><span>Shirinlik</span></div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-spin-wheel" id="spinWheelBtn">
+        Charxpalakni aylantirish ✨
+      </button>
+
+      <div class="bonus-result-msg" id="bonusResultMsg"></div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-stack" id="toastContainer"></div>
+
+  <!-- JAVASCRIPT CONTROLLER -->
   <script src="dashboard.js"></script>
 </body>
 </html>
