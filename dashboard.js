@@ -905,6 +905,6 @@ function setupEventListeners() {
 
   // Map Restaurants button
   document.getElementById('openRestaurantsMapBtn')?.addEventListener('click', () => {
-    alert("📍 Toshkentdagi Tanuki Family restoranlari:\n\n1. Tanuki Center — Amir Temur ko'chasi, 24\n2. Tanuki Chilonzor — Bunyodkor shoh ko'chasi\n3. Tanuki Mirzo Ulug'bek — Parkent ko'chasi\n4. TVOЯ Pizza — Oybek ko'chasi, 8\n\nIsh vaqti: 11:00 dan 23:00 gacha");
+    window.location.href = 'restaurant.html#mapSection';
   });
 }

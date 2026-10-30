@@ -60,6 +60,7 @@ function startServer(port) {
     console.log(`\n===========================================`);
     console.log(`🍣 Tanuki Family Server ishga tushdi:`);
     console.log(`   👉 Dashboard:    ${url}`);
+    console.log(`   👉 Restoranlar:  ${url}/restaurant.html`);
     console.log(`   👉 Kirish:       ${url}/login.html`);
     console.log(`   👉 Ro'yxatdan o'tish: ${url}/register.html`);
     console.log(`===========================================\n`);

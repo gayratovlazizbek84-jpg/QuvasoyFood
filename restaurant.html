@@ -1,35 +1,1173 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Restaurants — Quvasoy Food Rescue</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="theme.js"></script>
+  <title>Restoranlarimiz — Tanuki Family Tashkent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    /* ────────────────────────────────────────────────────────
+       RESTAURANTS PAGE CUSTOM STYLES
+       ──────────────────────────────────────────────────────── */
+    .rest-hero {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 24px;
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(rgba(18, 16, 31, 0.65), rgba(18, 16, 31, 0.8)),
+                  url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color: #ffffff;
+      padding: 40px 48px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .rest-hero-content {
+      max-width: 620px;
+      z-index: 2;
+    }
+
+    .rest-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--tanuki-red);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+
+    .rest-hero-title {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .rest-hero-desc {
+      font-size: 14.5px;
+      opacity: 0.9;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .rest-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+      border: none;
+      background: var(--tanuki-red);
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(227, 30, 36, 0.4);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--tanuki-red-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-hero-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    /* Highlights Bar */
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .highlights-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .highlight-card {
+      background: var(--tanuki-card-bg);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hl-icon {
+      font-size: 28px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--tanuki-pill-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hl-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--tanuki-text);
+      line-height: 1.25;
+    }
+
+    .hl-sub {
+      font-size: 12px;
+      color: var(--tanuki-text-muted);
+    }
+
+    /* Filter Bar for Restaurants */
+    .rest-filter-card {
+      background: var(--tanuki-card-bg);
+      border-radius: var(--radius-lg);
+      padding: 18px 22px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .rest-filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      border: none;
+      background: var(--tanuki-pill-bg);
+      color: var(--tanuki-text);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .filter-btn:hover {
+      background: var(--tanuki-pill-hover);
+    }
+
+    .filter-btn.active {
+      background: #1d1d1f;
+      color: #fff;
+    }
+
+    .rest-view-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--tanuki-pill-bg);
+      border-radius: var(--radius-pill);
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .view-toggle-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--tanuki-text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .view-toggle-btn.active {
+      background: #ffffff;
+      color: var(--tanuki-text);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Restaurants List Grid */
+    .restaurants-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .restaurants-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .restaurant-card {
+      background: var(--tanuki-card-bg);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--tanuki-border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Photo Carousel inside Card */
+    .rest-card-gallery {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      background: #1d1d1f;
+    }
+
+    .rest-main-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .restaurant-card:hover .rest-main-img {
+      transform: scale(1.03);
+    }
+
+    .rest-badge-brand {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--tanuki-red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-brand-pizza {
+      background: #ffb800;
+      color: #1d1d1f;
+    }
+
+    .badge-brand-kaspiyka {
+      background: #0077cc;
+    }
+
+    .rest-badge-status {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(6px);
+      color: #059669;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+    }
+
+    /* Card Details Body */
+    .rest-card-body {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .rest-card-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--tanuki-text);
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .rest-card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .meta-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--tanuki-text);
+      font-weight: 500;
+    }
+
+    .meta-line svg {
+      color: var(--tanuki-text-muted);
+      flex-shrink: 0;
+    }
+
+    .meta-line strong {
+      font-weight: 700;
+    }
+
+    /* Amenity Tags */
+    .rest-amenities-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .amenity-chip {
+      background: var(--tanuki-pill-bg);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--tanuki-text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Action buttons inside card */
+    .rest-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--tanuki-border);
+    }
+
+    .btn-book-table-card {
+      flex: 1;
+      border: none;
+      background: var(--tanuki-red);
+      color: #fff;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(227, 30, 36, 0.25);
+      transition: background 0.15s;
+    }
+
+    .btn-book-table-card:hover {
+      background: var(--tanuki-red-hover);
+    }
+
+    .btn-view-menu-card {
+      border: 1px solid var(--tanuki-border);
+      background: #ffffff;
+      color: var(--tanuki-text);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-view-menu-card:hover {
+      background: var(--tanuki-pill-bg);
+    }
+
+    /* Atmospheric Gallery Section */
+    .gallery-showcase-section {
+      background: var(--tanuki-card-bg);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 40px;
+    }
+
+    .gallery-header {
+      margin-bottom: 22px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .gallery-header h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--tanuki-text);
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+
+    .gallery-header p {
+      font-size: 13.5px;
+      color: var(--tanuki-text-muted);
+    }
+
+    .photo-masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .photo-masonry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gallery-photo-item {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    .gallery-photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .gallery-photo-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .photo-caption-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-photo-item:hover .photo-caption-overlay {
+      opacity: 1;
+    }
+
+    /* Interactive Map Preview Card */
+    .map-preview-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--tanuki-border);
+      margin-bottom: 40px;
+    }
+
+    .map-canvas-simulated {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      background: #e5e3df url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+    }
+
+    .map-pin-marker {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease;
+      z-index: 10;
+    }
+
+    .map-pin-marker:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 20;
+    }
+
+    .pin-bubble {
+      background: var(--tanuki-red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      white-space: nowrap;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pin-bubble.pizza-pin {
+      background: #ffb800;
+      color: #1d1d1f;
+    }
+
+    .pin-bubble.kaspiyka-pin {
+      background: #0077cc;
+    }
+
+    .pin-point {
+      width: 12px;
+      height: 12px;
+      background: #ffffff;
+      border: 3px solid var(--tanuki-red);
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
-<body>
-  <header class="qfr-header">
-    <div class="header-container">
-      <a href="index.html" class="brand-logo">
-        <div class="logo-icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-          </svg>
+<body class="tanuki-body">
+
+  <div class="tanuki-app">
+
+    <!-- 1. GLOBAL HEADER -->
+    <header class="tanuki-header">
+      <div class="header-inner">
+        
+        <!-- Brand Logo Badge -->
+        <a href="dashboard.html" class="brand-badge-logo" aria-label="Tanuki Family">
+          <span class="logo-red-box">
+            <span class="logo-brand-top">TANUKI</span>
+            <span class="logo-brand-sub">FAMILY</span>
+          </span>
+        </a>
+
+        <!-- Navigation tabs in header -->
+        <a href="dashboard.html" class="header-link-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Menyu & Yetkazish</span>
+        </a>
+
+        <a href="restaurant.html" class="header-link-btn" style="color: var(--tanuki-red); background: var(--tanuki-red-light);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Restoranlar</span>
+        </a>
+
+        <!-- Right Header Actions -->
+        <div class="header-right">
+          <!-- Table reservation button -->
+          <button type="button" class="btn-hero-primary" id="openTableBookingBtn" style="padding: 8px 18px; font-size: 13px;">
+            <span>🍽️ Stolni band qilish</span>
+          </button>
+
+          <a href="login.html" class="header-link-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" r="4"/></svg>
+            <span>Kirish</span>
+          </a>
         </div>
-        <span class="brand-text">Quvasoy Food Rescue</span>
-      </a>
-      <div class="header-right-actions">
-        <a href="index.html" class="btn btn-primary-green">&larr; Bosh sahifaga qaytish</a>
+
+      </div>
+    </header>
+
+
+    <!-- 2. HERO RESTAURANTS BANNER -->
+    <section class="rest-hero">
+      <div class="rest-hero-content">
+        <span class="rest-hero-tag">✨ TANUKI FAMILY RESTORANLARI</span>
+        <h1 class="rest-hero-title">Yaponiya muhiti va lazzatli taomlar maskani</h1>
+        <p class="rest-hero-desc">
+          Toshkentning eng nufuzli manzillarida joylashgan shinam restoranlarimizga tashrif buyuring.
+          Sizni sokin sharqona muhit, jonli musiqa, ochiq sushi-bar va unutilmas taassurotlar kutmoqda.
+        </p>
+        <div class="rest-hero-actions">
+          <button type="button" class="btn-hero-primary" id="heroBookBtn">
+            <span>Stolni band qilish</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <a href="#restaurantsSection" class="btn-hero-secondary">
+            <span>Filiallarni ko'rish</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 3. HIGHLIGHTS 4 CARDS -->
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="hl-icon">🍣</div>
+        <div>
+          <h3 class="hl-title">Ochiq Sushi-Bar</h3>
+          <p class="hl-sub">Oshpazlar mahorati ko'z oldingizda</p>
+        </div>
+      </div>
+
+      <div class="highlight-card">
+        <div class="hl-icon">🌿</div>
+        <div>
+          <h3 class="hl-title">Shinam Terassalar</h3>
+          <p class="hl-sub">Yozgi va qishki yopiq shinam zallar</p>
+        </div>
+      </div>
+
+      <div class="highlight-card">
+        <div class="hl-icon">🛝</div>
+        <div>
+          <h3 class="hl-title">Bolalar maydonchasi</h3>
+          <p class="hl-sub">Enagalar va qiziqarli o'yinchoqlar</p>
+        </div>
+      </div>
+
+      <div class="highlight-card">
+        <div class="hl-icon">🅿️</div>
+        <div>
+          <h3 class="hl-title">Qulay Avtoturargoh</h3>
+          <p class="hl-sub">Mehmonlarimiz uchun bepul parking</p>
+        </div>
       </div>
     </div>
-  </header>
-  <main class="section container" style="max-width: 680px; margin: 40px auto;">
-    <div class="restaurant-cta-card" style="text-align: left;">
-      <span class="cta-eyebrow">Hamkorlik portali</span>
-      <h1 class="cta-title">Restoraningizni qo'shing</h1>
-      <p class="cta-text">Quvasoy shahridagi oziq-ovqat isrofiga chek qo'ying. Ortiqcha yangi taomlaringizni tizimga joylang va muhtojlarga yoki arzon narxda shahar aholisiga yetkazing.</p>
-      <a href="index.html#restaurants" class="btn btn-primary-green full-width">Bosh sahifada e'lon berish &rarr;</a>
+
+
+    <!-- 4. FILTER BAR -->
+    <div class="rest-filter-card" id="restaurantsSection">
+      <div class="rest-filter-pills" id="brandFilterList">
+        <button type="button" class="filter-btn active" data-filter="all">Barcha filiallar (5)</button>
+        <button type="button" class="filter-btn" data-filter="tanuki">🍣 Tanuki (3)</button>
+        <button type="button" class="filter-btn" data-filter="pizza">🍕 TVOЯ Pizza (1)</button>
+        <button type="button" class="filter-btn" data-filter="kaspiyka">🐟 Kaspiyka (1)</button>
+      </div>
+
+      <div class="rest-view-toggle">
+        <button type="button" class="view-toggle-btn active" id="btnViewCards">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Ro'yxat
+        </button>
+        <button type="button" class="view-toggle-btn" id="btnViewMap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+          Xarita
+        </button>
+      </div>
     </div>
-  </main>
+
+
+    <!-- 5. RESTAURANTS CARDS GRID -->
+    <section class="restaurants-grid" id="restaurantsList">
+
+      <!-- Branch 1: Tanuki Amir Temur -->
+      <article class="restaurant-card" data-brand="tanuki">
+        <div class="rest-card-gallery">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Tanuki Amir Temur" class="rest-main-img">
+          <span class="rest-badge-brand">TANUKI</span>
+          <span class="rest-badge-status"><span class="status-dot"></span> 11:00 — 02:00</span>
+        </div>
+        <div class="rest-card-body">
+          <h2 class="rest-card-title">Tanuki — Amir Temur (Markaz)</h2>
+          <div class="rest-card-meta">
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Amir Temur shoh ko'chasi, 24 (Metro: Abdulla Qodiriy)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Ish vaqti: <strong>11:00 — 02:00</strong> (Tunu-kun yetkazib berish)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+998 (71) 200-00-55</span>
+            </div>
+          </div>
+
+          <div class="rest-amenities-wrap">
+            <span class="amenity-chip">🅿️ Bepul parking</span>
+            <span class="amenity-chip">🌿 Yozgi terassa</span>
+            <span class="amenity-chip">🍸 Kokteyl bar</span>
+            <span class="amenity-chip">🪑 VIP zal</span>
+            <span class="amenity-chip">📶 Wi-Fi</span>
+          </div>
+
+          <div class="rest-card-actions">
+            <button type="button" class="btn-book-table-card" data-branch="tashkent-center">
+              🍽️ Stol band qilish
+            </button>
+            <a href="dashboard.html" class="btn-view-menu-card">
+              🍣 Menyu
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Branch 2: Tanuki Chilonzor -->
+      <article class="restaurant-card" data-brand="tanuki">
+        <div class="rest-card-gallery">
+          <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=800&q=80" alt="Tanuki Chilonzor" class="rest-main-img">
+          <span class="rest-badge-brand">TANUKI</span>
+          <span class="rest-badge-status"><span class="status-dot"></span> 11:00 — 00:00</span>
+        </div>
+        <div class="rest-card-body">
+          <h2 class="rest-card-title">Tanuki — Chilonzor</h2>
+          <div class="rest-card-meta">
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Bunyodkor shoh ko'chasi, 12 (Metro: Mirzo Ulug'bek)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Ish vaqti: <strong>11:00 — 00:00</strong></span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+998 (71) 200-00-56</span>
+            </div>
+          </div>
+
+          <div class="rest-amenities-wrap">
+            <span class="amenity-chip">🛝 Bolalar maydoni</span>
+            <span class="amenity-chip">🅿️ Katta parking</span>
+            <span class="amenity-chip">🌿 Ochiq havoda stol</span>
+            <span class="amenity-chip">💳 Barcha kartalar</span>
+          </div>
+
+          <div class="rest-card-actions">
+            <button type="button" class="btn-book-table-card" data-branch="tashkent-chilanzar">
+              🍽️ Stol band qilish
+            </button>
+            <a href="dashboard.html" class="btn-view-menu-card">
+              🍣 Menyu
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Branch 3: Tanuki Mirzo Ulug'bek -->
+      <article class="restaurant-card" data-brand="tanuki">
+        <div class="rest-card-gallery">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Tanuki Mirzo Ulug'bek" class="rest-main-img">
+          <span class="rest-badge-brand">TANUKI</span>
+          <span class="rest-badge-status"><span class="status-dot"></span> 11:00 — 01:00</span>
+        </div>
+        <div class="rest-card-body">
+          <h2 class="rest-card-title">Tanuki — Mirzo Ulug'bek (Parkent)</h2>
+          <div class="rest-card-meta">
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Parkent ko'chasi, 45 (Mo'ljal: Korzinka Parkent)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Ish vaqti: <strong>11:00 — 01:00</strong></span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+998 (71) 200-00-57</span>
+            </div>
+          </div>
+
+          <div class="rest-amenities-wrap">
+            <span class="amenity-chip">🍣 Ochiq oshxona</span>
+            <span class="amenity-chip">🪑 Shaxsiy kabinalar</span>
+            <span class="amenity-chip">🍸 Kokteyl menyu</span>
+            <span class="amenity-chip">🅿️ Parking</span>
+          </div>
+
+          <div class="rest-card-actions">
+            <button type="button" class="btn-book-table-card" data-branch="tashkent-mirzo">
+              🍽️ Stol band qilish
+            </button>
+            <a href="dashboard.html" class="btn-view-menu-card">
+              🍣 Menyu
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Branch 4: TVOYA Pizza Oybek -->
+      <article class="restaurant-card" data-brand="pizza">
+        <div class="rest-card-gallery">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="TVOYA Pizza" class="rest-main-img">
+          <span class="rest-badge-brand badge-brand-pizza">TVOЯ PIZZA</span>
+          <span class="rest-badge-status"><span class="status-dot"></span> 10:00 — 23:00</span>
+        </div>
+        <div class="rest-card-body">
+          <h2 class="rest-card-title">TVOЯ Pizza — Oybek</h2>
+          <div class="rest-card-meta">
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Oybek ko'chasi, 8 (Metro: Oybek)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Ish vaqti: <strong>10:00 — 23:00</strong></span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+998 (71) 200-00-58</span>
+            </div>
+          </div>
+
+          <div class="rest-amenities-wrap">
+            <span class="amenity-chip">🍕 O'tin pechida pitsa</span>
+            <span class="amenity-chip">🥤 Italiya desertlari</span>
+            <span class="amenity-chip">🌿 Qulay veranda</span>
+            <span class="amenity-chip">📶 Wi-Fi</span>
+          </div>
+
+          <div class="rest-card-actions">
+            <button type="button" class="btn-book-table-card" data-branch="tashkent-tvoiapizza">
+              🍽️ Stol band qilish
+            </button>
+            <a href="dashboard.html" class="btn-view-menu-card">
+              🍕 Menyu
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Branch 5: Kaspiyka Rustaveli -->
+      <article class="restaurant-card" data-brand="kaspiyka">
+        <div class="rest-card-gallery">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Kaspiyka" class="rest-main-img">
+          <span class="rest-badge-brand badge-brand-kaspiyka">KASPIYKA</span>
+          <span class="rest-badge-status"><span class="status-dot"></span> 11:00 — 23:00</span>
+        </div>
+        <div class="rest-card-body">
+          <h2 class="rest-card-title">Kaspiyka — Shota Rustaveli</h2>
+          <div class="rest-card-meta">
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Shota Rustaveli ko'chasi, 31 (Grand Mir mehmonxonasi yonida)</span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Ish vaqti: <strong>11:00 — 23:00</strong></span>
+            </div>
+            <div class="meta-line">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+998 (71) 200-00-59</span>
+            </div>
+          </div>
+
+          <div class="rest-amenities-wrap">
+            <span class="amenity-chip">🐟 Yangi dengiz baliqlari</span>
+            <span class="amenity-chip">🍷 Maxsus sharbatlar</span>
+            <span class="amenity-chip">🪑 Dengiz uslubidagi zal</span>
+            <span class="amenity-chip">🅿️ Parking</span>
+          </div>
+
+          <div class="rest-card-actions">
+            <button type="button" class="btn-book-table-card" data-branch="tashkent-kaspiyka">
+              🍽️ Stol band qilish
+            </button>
+            <a href="dashboard.html" class="btn-view-menu-card">
+              🐟 Menyu
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+
+    <!-- 6. INTERACTIVE MAP SECTION -->
+    <div class="map-preview-card" id="mapSection">
+      <div style="padding: 20px 24px; border-bottom: 1px solid var(--tanuki-border); display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--tanuki-text);">Toshkent shahridagi filiallar xaritasi</h3>
+          <p style="font-size: 12.5px; color: var(--tanuki-text-muted);">Sizga eng yaqin Tanuki Family restoranini toping</p>
+        </div>
+        <span style="font-size: 13px; font-weight: 700; color: var(--tanuki-red);">📍 5 ta manzil</span>
+      </div>
+
+      <div class="map-canvas-simulated">
+        <!-- Pin 1: Amir Temur -->
+        <div class="map-pin-marker" style="top: 38%; left: 48%;" onclick="alert('Tanuki Center — Amir Temur shoh ko\'chasi, 24\nIsh vaqti: 11:00 — 02:00\nTel: +998 (71) 200-00-55')">
+          <div class="pin-bubble">🍣 Tanuki Center</div>
+          <div class="pin-point"></div>
+        </div>
+
+        <!-- Pin 2: Chilonzor -->
+        <div class="map-pin-marker" style="top: 65%; left: 32%;" onclick="alert('Tanuki Chilonzor — Bunyodkor shoh ko\'chasi, 12\nIsh vaqti: 11:00 — 00:00')">
+          <div class="pin-bubble">🍣 Chilonzor</div>
+          <div class="pin-point"></div>
+        </div>
+
+        <!-- Pin 3: Mirzo Ulug'bek -->
+        <div class="map-pin-marker" style="top: 42%; left: 68%;" onclick="alert('Tanuki Parkent — Parkent ko\'chasi, 45\nIsh vaqti: 11:00 — 01:00')">
+          <div class="pin-bubble">🍣 Parkent</div>
+          <div class="pin-point"></div>
+        </div>
+
+        <!-- Pin 4: TVOYA Pizza Oybek -->
+        <div class="map-pin-marker" style="top: 52%; left: 54%;" onclick="alert('TVOЯ Pizza — Oybek ko\'chasi, 8\nIsh vaqti: 10:00 — 23:00')">
+          <div class="pin-bubble pizza-pin">🍕 TVOЯ Pizza</div>
+          <div class="pin-point" style="border-color: #ffb800;"></div>
+        </div>
+
+        <!-- Pin 5: Kaspiyka Rustaveli -->
+        <div class="map-pin-marker" style="top: 58%; left: 45%;" onclick="alert('Kaspiyka — Shota Rustaveli ko\'chasi, 31\nIsh vaqti: 11:00 — 23:00')">
+          <div class="pin-bubble kaspiyka-pin">🐟 Kaspiyka</div>
+          <div class="pin-point" style="border-color: #0077cc;"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 7. PHOTO MASONRY GALLERY SHOWCASE -->
+    <section class="gallery-showcase-section">
+      <div class="gallery-header">
+        <div>
+          <h2>Restoranlarimiz muhiti</h2>
+          <p>Sharqona dizayn, zamonaviy yorug'lik va qulay mebellar uyg'unligi</p>
+        </div>
+      </div>
+
+      <div class="photo-masonry-grid">
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Tanuki Hall">
+          <div class="photo-caption-overlay">Markaziy qabul zali va shinam bo'lmalar</div>
+        </div>
+
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=600&q=80" alt="Sushi Counter">
+          <div class="photo-caption-overlay">Ochiq sushi-bar peshtaxtasi</div>
+        </div>
+
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Evening Lights">
+          <div class="photo-caption-overlay">Kechki romantik yorug'lik</div>
+        </div>
+
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="Family Lounge">
+          <div class="photo-caption-overlay">Oila davrasida tushlik uchun qulay divanlar</div>
+        </div>
+
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=600&q=80" alt="Bar Corner">
+          <div class="photo-caption-overlay">Eksklyuziv yapon choyi va kokteyllar bari</div>
+        </div>
+
+        <div class="gallery-photo-item">
+          <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80" alt="Dining experience">
+          <div class="photo-caption-overlay">Do'stlar bilan uchrashuvlar maskani</div>
+        </div>
+      </div>
+    </section>
+
+  </div> <!-- /tanuki-app -->
+
+
+  <!-- ==============================================
+       TABLE BOOKING MODAL
+       ============================================== -->
+  <div class="modal-backdrop" id="tableBookingModal" aria-hidden="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-cross" id="closeTableBookingModal">&times;</button>
+      
+      <div class="modal-hero-badge">
+        <span class="hero-icon">🍽️</span>
+        <h3>Stolni band qilish</h3>
+        <p>Restoranda joyingizni oldindan bepul band qilib qo'ying</p>
+      </div>
+
+      <form id="tableBookingForm" class="booking-form">
+        <div class="form-row">
+          <label>Restoranni tanlang</label>
+          <select id="bookRestaurant" required>
+            <option value="tashkent-center">Tanuki — Amir Temur shoh ko'chasi, 24</option>
+            <option value="tashkent-chilanzar">Tanuki — Chilonzor, Bunyodkor shoh ko'chasi</option>
+            <option value="tashkent-mirzo">Tanuki — Parkent ko'chasi, 45</option>
+            <option value="tashkent-tvoiapizza">TVOЯ Pizza — Oybek ko'chasi, 8</option>
+            <option value="tashkent-kaspiyka">Kaspiyka — Shota Rustaveli, 31</option>
+          </select>
+        </div>
+
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label>Sana</label>
+            <input type="date" id="bookDate" required>
+          </div>
+          <div class="form-row">
+            <label>Vaqt</label>
+            <input type="time" id="bookTime" value="19:00" required>
+          </div>
+        </div>
+
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label>Mehmonlar soni</label>
+            <select id="bookGuests">
+              <option value="2">2 kishi</option>
+              <option value="3">3 kishi</option>
+              <option value="4" selected>4 kishi</option>
+              <option value="6">6 kishi</option>
+              <option value="8+">8 kishidan ko'p (VIP zal)</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Telefon raqamingiz</label>
+            <input type="tel" id="bookPhone" placeholder="+998 90 123 45 67" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Ismingiz</label>
+          <input type="text" id="bookName" placeholder="Ismingizni kiriting" required>
+        </div>
+
+        <button type="submit" class="btn-submit-booking">
+          Joyni band qilish ✨
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- SCRIPT -->
+  <script>
+    // Filter by Brand
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.restaurant-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-brand') === filter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // View toggle (List vs Map)
+    const btnViewCards = document.getElementById('btnViewCards');
+    const btnViewMap = document.getElementById('btnViewMap');
+    const listSection = document.getElementById('restaurantsList');
+    const mapSection = document.getElementById('mapSection');
+
+    btnViewCards?.addEventListener('click', () => {
+      btnViewCards.classList.add('active');
+      btnViewMap.classList.remove('active');
+      listSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    btnViewMap?.addEventListener('click', () => {
+      btnViewMap.classList.add('active');
+      btnViewCards.classList.remove('active');
+      mapSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Table booking modal
+    const bookingModal = document.getElementById('tableBookingModal');
+    const closeBtn = document.getElementById('closeTableBookingModal');
+    const bookingForm = document.getElementById('tableBookingForm');
+
+    function openBookingModal(branchValue) {
+      bookingModal?.classList.add('active');
+      const today = new Date().toISOString().split('T')[0];
+      const dateInp = document.getElementById('bookDate');
+      if (dateInp) dateInp.value = today;
+      if (branchValue) {
+        const select = document.getElementById('bookRestaurant');
+        if (select) select.value = branchValue;
+      }
+    }
+
+    document.getElementById('openTableBookingBtn')?.addEventListener('click', () => openBookingModal());
+    document.getElementById('heroBookBtn')?.addEventListener('click', () => openBookingModal());
+
+    document.querySelectorAll('.btn-book-table-card').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const branch = btn.getAttribute('data-branch');
+        openBookingModal(branch);
+      });
+    });
+
+    closeBtn?.addEventListener('click', () => bookingModal?.classList.remove('active'));
+    bookingModal?.addEventListener('click', (e) => {
+      if (e.target === bookingModal) bookingModal.classList.remove('active');
+    });
+
+    bookingForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('bookName').value;
+      const phone = document.getElementById('bookPhone').value;
+      const guests = document.getElementById('bookGuests').value;
+      const time = document.getElementById('bookTime').value;
+
+      alert(`✅ Rahmat, ${name}!\n\nStol muvaffaqiyatli band qilindi.\nMehmonlar: ${guests}\nVaqt: ${time}\nTez orada ma'murimiz ${phone} raqamiga bog'lanadi.`);
+      bookingModal?.classList.remove('active');
+    });
+  </script>
 </body>
 </html>
