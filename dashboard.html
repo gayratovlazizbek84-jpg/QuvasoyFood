@@ -47,6 +47,8 @@
             <div class="lang-option" data-lang="ru">🇷🇺 Русский</div>
             <div class="lang-option" data-lang="en">🇬🇧 English</div>
           </div>
+          <!-- hidden: current flag kept in sync by JS -->
+
         </div>
 
         <!-- City Selector -->
@@ -66,7 +68,7 @@
         <!-- Delivery Address Input -->
         <div class="address-input-wrapper">
           <svg class="addr-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <input type="text" id="deliveryAddressInput" placeholder="Manzilingizni belgilang" value="Amir Temur ko'chasi, 24">
+          <input type="text" id="deliveryAddressInput" data-i18n-placeholder="addressPlaceholder" placeholder="Manzilingizni belgilang" value="Amir Temur ko'chasi, 24">
         </div>
 
         <!-- Table Reservation Banner / Button -->
@@ -75,8 +77,8 @@
             <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=80&q=80" alt="Restoran">
           </div>
           <div class="res-text">
-            <span class="res-sub">Sizni restoranlarda kutib qolamiz!</span>
-            <strong class="res-title">Stolni band qilish</strong>
+            <span class="res-sub" data-i18n="tableSubtitle">Sizni restoranlarda kutib qolamiz!</span>
+            <strong class="res-title" data-i18n="tableTitle">Stolni band qilish</strong>
           </div>
         </button>
 
@@ -90,7 +92,7 @@
               </svg>
               <span class="bonus-rosette-content">
                 <span class="star-sparkle">✦</span>
-                <span class="bonus-label">Bonuslar</span>
+               <span class="bonus-label" data-i18n="bonusBtn">Bonuslar</span>
               </span>
             </span>
           </button>
@@ -99,7 +101,7 @@
           <div class="auth-action-wrap" id="authActionArea">
             <a href="login.html" class="header-link-btn" id="headerLoginBtn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span>Kirish</span>
+              <span data-i18n="loginBtn">Kirish</span>
             </a>
           </div>
 
@@ -304,11 +306,11 @@
     <!-- 6. BOTTOM FLOATING CART BAR (MOBILE/TABLET) -->
     <div class="floating-cart-bar" id="floatingCartBar">
       <div class="float-cart-info">
-        <span class="float-cart-qty" id="floatCartQty">0 ta taom</span>
+        <span class="float-cart-qty" id="floatCartQty" data-i18n-dynamic="cartQty">0 ta taom</span>
         <strong class="float-cart-sum" id="floatCartSum">0 so'm</strong>
       </div>
       <button type="button" class="float-cart-action" id="floatCartOpenBtn">
-        <span>Savatga o'tish</span>
+        <span data-i18n="goToCart">Savatga o'tish</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -324,15 +326,15 @@
     <div class="drawer-header">
       <div class="drawer-title-wrap">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <h2>Savatchangiz</h2>
+        <h2 data-i18n="cartTitle">Savatchangiz</h2>
       </div>
       <button type="button" class="drawer-close-btn" id="closeCartBtn">&times;</button>
     </div>
 
     <!-- Delivery / Pickup Tabs -->
     <div class="order-mode-selector">
-      <button type="button" class="mode-btn active" data-mode="delivery">Yetkazib berish</button>
-      <button type="button" class="mode-btn" data-mode="pickup">Olib ketish (-10%)</button>
+      <button type="button" class="mode-btn active" data-mode="delivery" data-i18n="delivery">Yetkazib berish</button>
+      <button type="button" class="mode-btn" data-mode="pickup" data-i18n="pickup">Olib ketish (-10%)</button>
     </div>
 
     <!-- Cart Items Scroll List -->
