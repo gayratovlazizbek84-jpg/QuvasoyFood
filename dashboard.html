@@ -454,12 +454,35 @@
       <div class="wheel-box">
         <div class="wheel-pointer">🔻</div>
         <div class="wheel-circle" id="wheelCircle">
-          <div class="wheel-segment seg-1"><span>Sumiko seti</span></div>
-          <div class="wheel-segment seg-2"><span>50k bonus</span></div>
-          <div class="wheel-segment seg-3"><span>Roll bonus</span></div>
-          <div class="wheel-segment seg-4"><span>Bepul yetkazish</span></div>
-          <div class="wheel-segment seg-5"><span>10% chegirma</span></div>
-          <div class="wheel-segment seg-6"><span>Shirinlik</span></div>
+          <svg class="wheel-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Segment 1: 0-60deg (#ffeedb) — Sumiko seti -->
+            <path d="M100,100 L100,4 A96,96 0 0,1 183.14,52 Z" fill="#ffeedb" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(30)" text-anchor="middle" x="0" y="-62" font-size="9" font-weight="800" fill="#333">Sumiko seti</text>
+
+            <!-- Segment 2: 60-120deg (#ffd5d6) — 50k bonus -->
+            <path d="M100,100 L183.14,52 A96,96 0 0,1 183.14,148 Z" fill="#ffd5d6" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(90)" text-anchor="middle" x="0" y="-62" font-size="9" font-weight="800" fill="#333">50k bonus</text>
+
+            <!-- Segment 3: 120-180deg (#ffe8cc) — Roll bonus -->
+            <path d="M100,100 L183.14,148 A96,96 0 0,1 100,196 Z" fill="#ffe8cc" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(150)" text-anchor="middle" x="0" y="-62" font-size="9" font-weight="800" fill="#333">Roll bonus</text>
+
+            <!-- Segment 4: 180-240deg (#ffe0e2) — Bepul yetkazish -->
+            <path d="M100,100 L100,196 A96,96 0 0,1 16.86,148 Z" fill="#ffe0e2" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(210)" text-anchor="middle" x="0" y="-62" font-size="8.5" font-weight="800" fill="#333">Bepul yetk.</text>
+
+            <!-- Segment 5: 240-300deg (#fff3e0) — 10% chegirma -->
+            <path d="M100,100 L16.86,148 A96,96 0 0,1 16.86,52 Z" fill="#fff3e0" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(270)" text-anchor="middle" x="0" y="-62" font-size="9" font-weight="800" fill="#333">10% chegirma</text>
+
+            <!-- Segment 6: 300-360deg (#ffd8dc) — Shirinlik -->
+            <path d="M100,100 L16.86,52 A96,96 0 0,1 100,4 Z" fill="#ffd8dc" stroke="#e31e24" stroke-width="1.5"/>
+            <text transform="translate(100,100) rotate(330)" text-anchor="middle" x="0" y="-62" font-size="9" font-weight="800" fill="#333">Shirinlik</text>
+
+            <!-- Center hub -->
+            <circle cx="100" cy="100" r="22" fill="#fff" stroke="#e31e24" stroke-width="2"/>
+            <text x="100" y="106" text-anchor="middle" font-size="18">🎯</text>
+          </svg>
         </div>
       </div>
 
