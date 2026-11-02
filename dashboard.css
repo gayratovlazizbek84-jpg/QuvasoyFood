@@ -356,9 +356,6 @@ body.tanuki-body {
 .bonus-burst:hover {
   background: var(--tanuki-red-hover);
   transform: scale(1.03);
-} 
-  background: var(--tanuki-red-hover);
-  transform: scale(1.03);
 }
 
 /* Kirish / Profile link */
