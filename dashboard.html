@@ -21,10 +21,19 @@
       <div class="header-inner">
         
         <!-- Brand Logo Badge -->
-        <a href="dashboard.html" class="brand-badge-logo" aria-label="Tanuki Family">
+        <a href="dashboard.html" class="brand-badge-logo" aria-label="Quvasoy Food Family">
           <span class="logo-red-box">
-            <span class="logo-brand-top">TANUKI</span>
-            <span class="logo-brand-sub">FAMILY</span>
+            <span class="logo-emblem-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v3M8 4v2M16 4v2"/>
+                <path d="M4 18h16a2 2 0 0 0 2-2 9 9 0 0 0-18 0 2 2 0 0 0 2 2z"/>
+                <line x1="2" y1="21" x2="22" y2="21"/>
+              </svg>
+            </span>
+            <span class="logo-text-stack">
+              <span class="logo-brand-top">QUVASOY</span>
+              <span class="logo-brand-sub">FOOD FAMILY</span>
+            </span>
           </span>
         </a>
 
@@ -54,12 +63,6 @@
           </div>
         </div>
 
-        <!-- Address / Restaurants link -->
-        <a href="restaurant.html" class="header-link-btn" style="color: var(--tanuki-red); font-weight: 700;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Restoranlar</span>
-        </a>
-
         <!-- Delivery Address Input -->
         <div class="address-input-wrapper">
           <svg class="addr-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -79,11 +82,16 @@
 
         <!-- Right Header Actions (Bonuslar, Kirish / User, Savat) -->
         <div class="header-right">
-          <!-- Bonuslar badge button -->
-          <button type="button" class="bonus-badge-btn" id="openBonusBtn">
-            <span class="bonus-burst">
-              <svg class="star-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              Bonuslar
+          <!-- Bonuslar scalloped rosette badge button -->
+          <button type="button" class="bonus-badge-btn" id="openBonusBtn" aria-label="Bonuslar" title="Bonuslar va Sovg'alar">
+            <span class="bonus-rosette-pill">
+              <svg class="bonus-scallop-shape" viewBox="0 0 112 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 2 C21 -0.5 25 -0.5 28 2 C31 -0.5 35 -0.5 38 2 C41 -0.5 45 -0.5 48 2 C51 -0.5 55 -0.5 58 2 C61 -0.5 65 -0.5 68 2 C71 -0.5 75 -0.5 78 2 C81 -0.5 85 -0.5 88 2 C91 -0.5 95 0.5 98 3.5 C101 6.5 103 10 103 14 C104 17.5 103 21 101 24 C99 27.5 96 30.5 93 32.5 C90 34.5 86 35 83 33.5 C80 35.5 76 35.5 73 33.5 C70 35.5 66 35.5 63 33.5 C60 35.5 56 35.5 53 33.5 C50 35.5 46 35.5 43 33.5 C40 35.5 36 35.5 33 33.5 C30 35.5 26 35.5 23 33.5 C20 35.5 16 34.5 13 32.5 C10 30.5 7 27.5 5 24 C3 21 2 17.5 3 14 C3 10 5 6.5 8 3.5 C11 0.5 15 -0.5 18 2 Z" fill="#e31e24"/>
+              </svg>
+              <span class="bonus-rosette-content">
+                <span class="star-sparkle">✦</span>
+                <span class="bonus-label">Bonuslar</span>
+              </span>
             </span>
           </button>
 
@@ -110,12 +118,16 @@
     <nav class="brand-tabs-nav">
       <div class="brand-tabs-scroll">
         
-        <!-- Brand 1: TANUKI (Active Red) -->
+        <!-- Brand 1: QUVASOY FOOD (Active Red) -->
         <button type="button" class="brand-tab active" data-brand="tanuki">
-          <span class="brand-tab-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span class="brand-tab-icon brand-food-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 11h18c0 5-3.5 9-9 9s-9-4-9-9z"/>
+              <path d="M12 2v4M8 3v3M16 3v3"/>
+              <line x1="2" y1="11" x2="22" y2="11"/>
+            </svg>
           </span>
-          <span class="brand-tab-title">TANUKI</span>
+          <span class="brand-tab-title">QUVASOY FOOD</span>
         </button>
 
         <!-- Brand 2: TVOYA Pizza -->
@@ -431,8 +443,12 @@
       
       <div class="bonus-header-wrap">
         <span class="bonus-fire">🎁</span>
-        <h3>Tanuki Family Bonuslari</h3>
+        <h3>Quvasoy Food Bonuslari</h3>
         <p>Har bir buyurtmadan 5% keshbek va har hafta yangi sovg'alar!</p>
+        <div class="user-bonus-balance-pill">
+          <span>Sizning hisobingiz:</span>
+          <strong id="modalBonusBalanceDisplay">50 000 bonus ball</strong>
+        </div>
       </div>
 
       <div class="wheel-box">

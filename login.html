@@ -108,17 +108,30 @@
     .logo-red-box {
       background: var(--tanuki-red);
       color: #fff;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 6px 14px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
       box-shadow: 0 4px 12px rgba(227, 30, 36, 0.28);
     }
 
+    .logo-emblem-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+
+    .logo-text-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .logo-brand-top {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       letter-spacing: 0.8px;
       line-height: 1.1;
@@ -127,7 +140,7 @@
     .logo-brand-sub {
       font-size: 8px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       opacity: 0.95;
       line-height: 1.1;
     }
@@ -386,8 +399,17 @@
       <!-- Brand Logo Badge -->
       <a href="dashboard.html" class="brand-logo-badge">
         <span class="logo-red-box">
-          <span class="logo-brand-top">TANUKI</span>
-          <span class="logo-brand-sub">FAMILY</span>
+          <span class="logo-emblem-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v3M8 4v2M16 4v2"/>
+              <path d="M4 18h16a2 2 0 0 0 2-2 9 9 0 0 0-18 0 2 2 0 0 0 2 2z"/>
+              <line x1="2" y1="21" x2="22" y2="21"/>
+            </svg>
+          </span>
+          <span class="logo-text-stack">
+            <span class="logo-brand-top">QUVASOY</span>
+            <span class="logo-brand-sub">FOOD FAMILY</span>
+          </span>
         </span>
       </a>
 

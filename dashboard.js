@@ -534,9 +534,12 @@ function renderProducts() {
           <h3 class="dish-title">${dish.title}</h3>
           <p class="dish-desc">${dish.desc}</p>
 
-          <!-- Card Footer (Price + Add/Counter Button) -->
+          <!-- Card Footer (Price + Bonus cashback + Add/Counter Button) -->
           <div class="dish-footer">
-            <span class="dish-price">${formattedPrice}</span>
+            <div class="dish-price-wrap">
+              <span class="dish-price">${formattedPrice}</span>
+              <span class="dish-bonus-cashback">+${Math.round(dish.price * 0.05).toLocaleString('uz-UZ')} bonus</span>
+            </div>
 
             ${inCartItem ? `
               <div class="dish-qty-control">
@@ -842,8 +845,16 @@ function setupEventListeners() {
     if (e.target === bonusModal) closeBonusModalFunc();
   });
 
+  let userBonusPoints = parseInt(localStorage.getItem('quvasoy_bonus_points') || '50000', 10);
+
+  function updateBonusModalDisplay() {
+    const display = document.getElementById('modalBonusBalanceDisplay');
+    if (display) display.textContent = `${userBonusPoints.toLocaleString('uz-UZ')} bonus ball`;
+  }
+
   function openBonusModalFunc() {
     bonusModal?.classList.add('active');
+    updateBonusModalDisplay();
     if (bonusResultMsg) bonusResultMsg.textContent = '';
   }
 
@@ -870,6 +881,11 @@ function setupEventListeners() {
       ];
       const win = prizes[Math.floor(Math.random() * prizes.length)];
       bonusResultMsg.textContent = win;
+      if (win.includes('50 000')) {
+        userBonusPoints += 50000;
+        localStorage.setItem('quvasoy_bonus_points', userBonusPoints);
+        updateBonusModalDisplay();
+      }
       showToast(win, 'success');
     }, 3600);
   });

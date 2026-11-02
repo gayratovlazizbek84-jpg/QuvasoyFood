@@ -77,13 +77,13 @@ body.tanuki-body {
 .logo-red-box {
   background: var(--tanuki-red);
   color: #fff;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 6px 14px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(227, 30, 36, 0.28);
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(227, 30, 36, 0.3);
   transition: transform 0.15s ease;
 }
 
@@ -91,8 +91,21 @@ body.tanuki-body {
   transform: scale(1.02);
 }
 
+.logo-emblem-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.logo-text-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .logo-brand-top {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 800;
   letter-spacing: 0.8px;
   line-height: 1.1;
@@ -101,7 +114,7 @@ body.tanuki-body {
 .logo-brand-sub {
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   opacity: 0.95;
   line-height: 1.1;
 }
@@ -275,12 +288,55 @@ body.tanuki-body {
   margin-left: auto;
 }
 
-/* Bonus Badge Button */
+/* Bonus Rosette Starburst Badge (Matching Screenshot) */
 .bonus-badge-btn {
   border: none;
   background: transparent;
   cursor: pointer;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.bonus-rosette-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 35px;
+  filter: drop-shadow(0 4px 10px rgba(227, 30, 36, 0.35));
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bonus-rosette-pill:hover {
+  transform: scale(1.06);
+}
+
+.bonus-scallop-shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.bonus-rosette-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 12px;
+}
+
+.star-sparkle {
+  font-size: 11px;
+  color: #ffeb3b;
 }
 
 .bonus-burst {
@@ -298,6 +354,9 @@ body.tanuki-body {
 }
 
 .bonus-burst:hover {
+  background: var(--tanuki-red-hover);
+  transform: scale(1.03);
+}
   background: var(--tanuki-red-hover);
   transform: scale(1.03);
 }
@@ -888,10 +947,31 @@ body.tanuki-body {
   gap: 8px;
 }
 
+.dish-price-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .dish-price {
   font-size: 16px;
   font-weight: 800;
   color: var(--tanuki-text);
+  line-height: 1.15;
+}
+
+.dish-bonus-cashback {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--tanuki-red);
+  background: #fff0f1;
+  padding: 2px 7px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  width: fit-content;
+  letter-spacing: 0.2px;
 }
 
 .btn-add-to-cart {
@@ -1344,7 +1424,27 @@ body.tanuki-body {
 .bonus-header-wrap p {
   font-size: 13px;
   color: var(--tanuki-text-muted);
+  margin-bottom: 12px;
+}
+
+.user-bonus-balance-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff3f3;
+  border: 1px dashed var(--tanuki-red);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tanuki-text);
   margin-bottom: 20px;
+}
+
+.user-bonus-balance-pill strong {
+  color: var(--tanuki-red);
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .bonus-fire {
